@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BookTopia Dashboard - Track your reading progress">
+    <title>Dashboard | BookTopia</title>
+    <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">
+                <img src="assets/logo.svg" alt="BookTopia Logo">
+                <span>BookTopia</span>
+            </a>
+
+            <div class="navbar-actions">
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <img src="assets/default-avatar.svg" alt="Avatar" class="avatar avatar-sm" id="navAvatar">
+                    <span id="navUsername" style="font-weight: 500;"></span>
+                </div>
+                <button class="btn btn-ghost" id="signOutBtn">Sign Out</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard -->
+    <div class="dashboard">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <div class="container">
+                <div class="dashboard-header-content">
+                    <div class="user-info">
+                        <img src="assets/default-avatar.svg" alt="Avatar" class="avatar avatar-lg" id="headerAvatar">
+                        <div>
+                            <h2 id="welcomeText">Welcome back!</h2>
+                            <p>@<span id="usernameDisplay">username</span> • <span id="registerDisplay">Register
+                                    Number</span></p>
+                        </div>
+                    </div>
+                    <div id="streakBadge" class="streak-badge inactive">
+                        🔥 <span id="streakCount">0</span> Day Streak
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Main Content -->
+        <div class="dashboard-main">
+            <div class="container">
+                <div class="dashboard-grid">
+                    <!-- Left Column -->
+                    <div>
+                        <!-- Stats Cards -->
+                        <div class="stats-grid mb-lg">
+                            <div class="stat-card">
+                                <div class="stat-icon">📖</div>
+                                <div class="stat-value text-gradient" id="totalPages">0</div>
+                                <div class="stat-label">Total Pages Read</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">📅</div>
+                                <div class="stat-value text-gradient" id="daysLogged">0</div>
+                                <div class="stat-label">Days Logged</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">🎯</div>
+                                <div class="stat-value text-gradient" id="avgPages">0</div>
+                                <div class="stat-label">Avg Pages/Day</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">🏆</div>
+                                <div class="stat-value text-gradient" id="userRank">#-</div>
+                                <div class="stat-label">Your Rank</div>
+                            </div>
+                        </div>
+
+                        <!-- Reading Log Form -->
+                        <div class="dashboard-section">
+                            <div class="dashboard-section-header">
+                                <h3>📝 Log Your Reading</h3>
+                            </div>
+                            <div class="card">
+                                <form id="logForm" class="log-form">
+                                    <div class="form-group" style="margin-bottom: 0;">
+                                        <label class="form-label" for="pagesRead">Pages Read</label>
+                                        <input type="number" id="pagesRead" class="form-input" placeholder="e.g., 25"
+                                            min="1" max="1000" required>
+                                    </div>
+                                    <div class="form-group" style="margin-bottom: 0;">
+                                        <label class="form-label" for="logDate">Date</label>
+                                        <input type="date" id="logDate" class="form-input" required>
+                                    </div>
+                                    <div class="form-group" style="margin-bottom: 0;">
+                                        <label class="form-label">&nbsp;</label>
+                                        <button type="submit" class="btn btn-primary" id="logBtn">
+                                            Add Entry
+                                        </button>
+                                    </div>
+                                </form>
+                                <p class="form-helper mt-md" style="font-size: 0.85rem;">
+                                    💡 You can log entries for today or up to 3 days in the past
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Reading History -->
+                        <div class="dashboard-section">
+                            <div class="dashboard-section-header">
+                                <h3>📚 Reading History</h3>
+                            </div>
+                            <div class="table-wrapper" id="historyWrapper">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Pages</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="historyBody">
+                                        <!-- Will be populated by JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="empty-state hidden" id="emptyHistory">
+                                <div class="empty-state-icon">📭</div>
+                                <h3>No reading logs yet</h3>
+                                <p>Start logging your daily reading to see your history here!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column - Leaderboard -->
+                    <div>
+                        <div class="dashboard-section">
+                            <div class="dashboard-section-header">
+                                <h3>🏅 Leaderboard</h3>
+                            </div>
+                            <div class="card">
+                                <div id="leaderboardList">
+                                    <!-- Will be populated by JS -->
+                                </div>
+                                <div class="empty-state hidden" id="emptyLeaderboard">
+                                    <div class="empty-state-icon">🏆</div>
+                                    <h3>No entries yet</h3>
+                                    <p>Be the first to climb the leaderboard!</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Monthly Progress -->
+                        <div class="dashboard-section">
+                            <div class="dashboard-section-header">
+                                <h3>📈 Monthly Progress</h3>
+                            </div>
+                            <div class="card">
+                                <div style="text-align: center; margin-bottom: 1.5rem;">
+                                    <div class="progress-ring" style="width: 150px; height: 150px;">
+                                        <svg viewBox="0 0 150 150" width="150" height="150">
+                                            <defs>
+                                                <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%"
+                                                    y2="100%">
+                                                    <stop offset="0%" style="stop-color:#0ea5e9" />
+                                                    <stop offset="100%" style="stop-color:#d946ef" />
+                                                </linearGradient>
+                                            </defs>
+                                            <circle class="progress-ring-bg" cx="75" cy="75" r="65" fill="none"
+                                                stroke-width="10" />
+                                            <circle class="progress-ring-fill" cx="75" cy="75" r="65" fill="none"
+                                                stroke-width="10" stroke-dasharray="408.4" stroke-dashoffset="408.4"
+                                                id="progressCircle" />
+                                        </svg>
+                                        <span class="progress-ring-text" id="progressPercent">0%</span>
+                                    </div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                                        <span id="daysPassed">0</span> of 30 days completed
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Tips -->
+                        <div class="dashboard-section">
+                            <div class="card"
+                                style="background: var(--gradient-glow); border-color: var(--primary-500);">
+                                <h4 style="margin-bottom: 0.75rem;">💡 Reading Tip</h4>
+                                <p style="color: var(--text-secondary); font-size: 0.9rem;" id="dailyTip">
+                                    Set a specific time each day for reading. Morning routines work great!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Log Modal -->
+    <div class="loading-overlay hidden" id="editModal" style="background: rgba(10, 10, 15, 0.9);">
+        <div class="auth-card" style="max-width: 400px;">
+            <h3 style="margin-bottom: 1.5rem;">Edit Reading Log</h3>
+            <form id="editForm">
+                <input type="hidden" id="editLogId">
+                <div class="form-group">
+                    <label class="form-label" for="editPages">Pages Read</label>
+                    <input type="number" id="editPages" class="form-input" min="1" max="1000" required>
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <button type="button" class="btn btn-secondary w-full" id="cancelEdit">Cancel</button>
+                    <button type="submit" class="btn btn-primary w-full">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="js/supabase-config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/reading-log.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="bookGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0ea5e9"/>
+      <stop offset="100%" style="stop-color:#d946ef"/>
+    </linearGradient>
+    <linearGradient id="pageGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f0f9ff"/>
+      <stop offset="100%" style="stop-color:#e0f2fe"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Book base -->
+  <path d="M30 150 L30 50 Q30 40 40 40 L95 40 Q100 40 100 50 L100 150 Q100 160 90 160 L40 160 Q30 160 30 150 Z" fill="url(#bookGrad)" opacity="0.9"/>
+  <path d="M100 50 L100 150 Q100 160 110 160 L160 160 Q170 160 170 150 L170 50 Q170 40 160 40 L105 40 Q100 40 100 50 Z" fill="url(#bookGrad)"/>
+  
+  <!-- Pages -->
+  <rect x="38" y="48" width="54" height="105" rx="2" fill="url(#pageGrad)"/>
+  <rect x="108" y="48" width="54" height="105" rx="2" fill="url(#pageGrad)"/>
+  
+  <!-- Book lines -->
+  <line x1="45" y1="65" x2="85" y2="65" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="45" y1="80" x2="85" y2="80" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="45" y1="95" x2="75" y2="95" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="45" y1="110" x2="85" y2="110" stroke="#94a3b8" stroke-width="2"/>
+  
+  <line x1="115" y1="65" x2="155" y2="65" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="115" y1="80" x2="155" y2="80" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="115" y1="95" x2="145" y2="95" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="115" y1="110" x2="155" y2="110" stroke="#94a3b8" stroke-width="2"/>
+  
+  <!-- Bookmark -->
+  <path d="M140 40 L140 75 L150 65 L160 75 L160 40 Z" fill="#ef4444"/>
+  
+  <!-- Stars decoration -->
+  <circle cx="25" cy="35" r="3" fill="#fbbf24"/>
+  <circle cx="175" cy="35" r="2" fill="#fbbf24"/>
+  <circle cx="180" cy="55" r="3" fill="#fbbf24"/>
+  <circle cx="20" cy="170" r="2" fill="#fbbf24"/>
+  
+  <!-- Sparkle -->
+  <path d="M60 25 L62 30 L67 30 L63 33 L65 38 L60 35 L55 38 L57 33 L53 30 L58 30 Z" fill="#0ea5e9"/>
+</svg>
