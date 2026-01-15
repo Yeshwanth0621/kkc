@@ -1,6 +1,7 @@
 /**
  * Authentication Module
  * BookTopia - Kalam Knowledge Club
+ * Powered by Appwrite
  */
 
 // ============================================
@@ -12,29 +13,24 @@
  * @returns {Promise<object|null>} User object or null
  */
 async function checkAuth() {
-    const client = await getSupabase();
-    const { data: { user }, error } = await client.auth.getUser();
-
-    if (error || !user) {
-        return null;
+    try {
+        const user = await window.appwriteAccount.get();
+        return user;
+    } catch (error) {
+        return null; // Not authenticated
     }
-
-    return user;
 }
 
 /**
  * Get current session
- * @returns {Promise<object|null>} Session object or null
+ * @returns {Promise<object|null>} Session info or null
  */
 async function getSession() {
-    const client = await getSupabase();
-    const { data: { session }, error } = await client.auth.getSession();
-
-    if (error || !session) {
+    try {
+        return await window.appwriteAccount.getSession('current');
+    } catch (error) {
         return null;
     }
-
-    return session;
 }
 
 // ============================================
@@ -49,63 +45,49 @@ async function getSession() {
  * @returns {Promise<object>} User object
  */
 async function signUp(email, password, profileData) {
-    const client = await getSupabase();
-
-    // First, check if username is available
+    // 1. Check Username Availability
     const isAvailable = await checkUsernameAvailability(profileData.username);
     if (!isAvailable) {
         throw new Error('Username is already taken');
     }
 
-    // Sign up the user
-    // We pass profile data in 'options.data' so the database trigger can pick it up
-    const { data, error } = await client.auth.signUp({
-        email,
-        password,
-        options: {
-            data: {
-                username: profileData.username,
-                register_number: profileData.registerNumber,
-                full_name: profileData.username, // Fallback
+    try {
+        // 2. Create Account
+        // ID.unique() generates a unique ID for the user
+        const user = await window.appwriteAccount.create(
+            window.AppwriteID.unique(),
+            email,
+            password,
+            profileData.username // Use username as name initially
+        );
+
+        // 3. Create Session (Login immediately to create profile)
+        await window.appwriteAccount.createEmailPasswordSession(email, password);
+
+        // 4. Create Profile Document
+        // Note: In Appwrite, we need to create the profile document manually since we don't have triggers yet
+        let avatarUrl = null;
+        if (profileData.avatarFile) {
+            try {
+                // We'll implement upload logic later or skip for MVP
+                avatarUrl = await uploadAvatar(user.$id, profileData.avatarFile);
+            } catch (e) {
+                console.warn('Avatar upload failed:', e);
             }
         }
-    });
 
-    if (error) {
+        await createProfile(user.$id, {
+            username: profileData.username,
+            registerNumber: profileData.registerNumber,
+            avatarUrl,
+            email: email
+        });
+
+        return user;
+    } catch (error) {
+        console.error("Signup Error:", error);
         throw error;
     }
-
-    if (!data.user) {
-        throw new Error('Failed to create account');
-    }
-
-    // Note: Profile creation is now handled by the 'on_auth_user_created' database trigger.
-    // We do NOT manually insert into 'profiles' here to avoid race conditions and RLS issues.
-
-    // Upload avatar if provided - doing this AFTER auth might be tricky if RLS requires profile
-    // But usually storage RLS depends on auth.uid() which exists now.
-    // However, for a smoother flow, we might want to do this after they log in or just warn if it fails.
-    if (profileData.avatarFile && data.user) {
-        try {
-            // Slight delay to ensure trigger has run if we needed profile rows (but storage usually just needs auth)
-            // Actually, we can just try to upload.
-            const avatarUrl = await uploadAvatar(data.user.id, profileData.avatarFile);
-
-            // If upload succeeds, we might want to update the profile with the URL
-            // But we can't do that if the user isn't "logged in" fully yet (if email confirmation is on).
-            // So for now, we'll skip immediate avatar update if email confirmation is required.
-            // Ideally, avatar upload should happen on the 'Complete Profile' step or dashboard.
-
-            // If email confirmation is NOT required, we could try updating:
-            if (data.session) {
-                await updateProfile(data.user.id, { avatarUrl });
-            }
-        } catch (e) {
-            console.warn('Failed to upload avatar during signup (can be done later):', e);
-        }
-    }
-
-    return data.user;
 }
 
 // ============================================
@@ -119,35 +101,25 @@ async function signUp(email, password, profileData) {
  * @returns {Promise<object>} User object
  */
 async function signIn(email, password) {
-    const client = await getSupabase();
-
-    const { data, error } = await client.auth.signInWithPassword({
-        email,
-        password
-    });
-
-    if (error) {
+    try {
+        await window.appwriteAccount.createEmailPasswordSession(email, password);
+        return await window.appwriteAccount.get();
+    } catch (error) {
         throw error;
     }
-
-    return data.user;
 }
 
 /**
  * Sign in with Google OAuth
- * @returns {Promise<void>}
  */
 async function signInWithGoogle() {
-    const client = await getSupabase();
-
-    const { error } = await client.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-            redirectTo: window.location.origin + '/profile-setup.html'
-        }
-    });
-
-    if (error) {
+    try {
+        window.appwriteAccount.createOAuth2Session(
+            'google',
+            window.location.origin + '/dashboard.html', // Success
+            window.location.origin + '/signin.html'    // Failure
+        );
+    } catch (error) {
         throw error;
     }
 }
@@ -156,19 +128,13 @@ async function signInWithGoogle() {
 // Password Reset
 // ============================================
 
-/**
- * Send password reset email
- * @param {string} email - User email
- * @returns {Promise<void>}
- */
 async function resetPassword(email) {
-    const client = await getSupabase();
-
-    const { error } = await client.auth.resetPasswordForEmail(email, {
-        redirectTo: window.location.origin + '/signin.html'
-    });
-
-    if (error) {
+    try {
+        await window.appwriteAccount.createRecovery(
+            email,
+            window.location.origin + '/reset-password.html'
+        );
+    } catch (error) {
         throw error;
     }
 }
@@ -177,189 +143,125 @@ async function resetPassword(email) {
 // Sign Out
 // ============================================
 
-/**
- * Sign out the current user
- * @returns {Promise<void>}
- */
 async function signOut() {
-    const client = await getSupabase();
-
-    const { error } = await client.auth.signOut();
-
-    if (error) {
-        throw error;
+    try {
+        await window.appwriteAccount.deleteSession('current');
+        window.location.href = 'index.html';
+    } catch (error) {
+        console.error("Signout failed", error);
+        window.location.href = 'index.html';
     }
-
-    window.location.href = 'index.html';
 }
 
 // ============================================
-// Profile Management
+// Profile Management (Database)
 // ============================================
 
-/**
- * Get user profile
- * @param {string} userId - User ID
- * @returns {Promise<object|null>} Profile object or null
- */
 async function getProfile(userId) {
-    const client = await getSupabase();
+    const { databases, APPWRITE_CONFIG, AppwriteQuery } = window;
 
-    const { data, error } = await client
-        .from('profiles')
-        .select('*')
-        .eq('id', userId)
-        .single();
+    try {
+        // Try simple get first if ID matches
+        // But profiles might be stored with custom IDs or mapped.
+        // Let's assume Profile ID = User ID for simplicity if we can set it,
+        // otherwise we query by user_id field.
 
-    if (error) {
-        if (error.code === 'PGRST116') {
-            // No profile found
+        // Strategy: Query 'profiles' collection where user_id (or $id) matches
+        // Assuming we store profile with document ID = User ID
+        try {
+            return await databases.getDocument(
+                APPWRITE_CONFIG.DB_ID,
+                APPWRITE_CONFIG.COLLECTION_PROFILES,
+                userId
+            );
+        } catch (e) {
+            // If not found by ID, try query just in case schema differs
+            const response = await databases.listDocuments(
+                APPWRITE_CONFIG.DB_ID,
+                APPWRITE_CONFIG.COLLECTION_PROFILES,
+                [AppwriteQuery.equal('user_id', userId)]
+            );
+            if (response.documents.length > 0) return response.documents[0];
             return null;
         }
-        console.error('Error fetching profile:', error);
+    } catch (error) {
         return null;
     }
-
-    return data;
 }
 
-/**
- * Create user profile
- * @param {string} userId - User ID
- * @param {object} profileData - Profile data
- * @returns {Promise<object>} Created profile
- */
 async function createProfile(userId, profileData) {
-    const client = await getSupabase();
+    const { databases, APPWRITE_CONFIG } = window;
 
-    const { data, error } = await client
-        .from('profiles')
-        .upsert({
-            id: userId,
+    return await databases.createDocument(
+        APPWRITE_CONFIG.DB_ID,
+        APPWRITE_CONFIG.COLLECTION_PROFILES,
+        userId, // Use User ID as Document ID for easy retrieval
+        {
             username: profileData.username,
             register_number: profileData.registerNumber,
             avatar_url: profileData.avatarUrl,
-            updated_at: new Date().toISOString()
-        }, { onConflict: 'id' })
-        .select()
-        .single();
-
-    if (error) {
-        throw error;
-    }
-
-    return data;
+            user_id: userId,
+            created_at: new Date().toISOString()
+        }
+    );
 }
 
-/**
- * Update user profile
- * @param {string} userId - User ID
- * @param {object} updates - Fields to update
- * @returns {Promise<object>} Updated profile
- */
 async function updateProfile(userId, updates) {
-    const client = await getSupabase();
+    const { databases, APPWRITE_CONFIG } = window;
 
-    const updateData = {
-        updated_at: new Date().toISOString()
-    };
-
-    if (updates.username) updateData.username = updates.username;
-    if (updates.registerNumber) updateData.register_number = updates.registerNumber;
-    if (updates.avatarUrl !== undefined) updateData.avatar_url = updates.avatarUrl;
-
-    const { data, error } = await client
-        .from('profiles')
-        .update(updateData)
-        .eq('id', userId)
-        .select()
-        .single();
-
-    if (error) {
-        throw error;
-    }
-
-    return data;
+    return await databases.updateDocument(
+        APPWRITE_CONFIG.DB_ID,
+        APPWRITE_CONFIG.COLLECTION_PROFILES,
+        userId,
+        updates
+    );
 }
 
-// ============================================
-// Username Availability
-// ============================================
-
-/**
- * Check if username is available
- * @param {string} username - Username to check
- * @returns {Promise<boolean>} Whether username is available
- */
 async function checkUsernameAvailability(username) {
-    const client = await getSupabase();
+    const { databases, APPWRITE_CONFIG, AppwriteQuery } = window;
 
-    const { data, error } = await client
-        .from('profiles')
-        .select('id')
-        .ilike('username', username)
-        .maybeSingle();
-
-    if (error) {
-        console.error('Error checking username:', error);
-        return false;
+    try {
+        const response = await databases.listDocuments(
+            APPWRITE_CONFIG.DB_ID,
+            APPWRITE_CONFIG.COLLECTION_PROFILES,
+            [AppwriteQuery.equal('username', username)]
+        );
+        return response.total === 0;
+    } catch (error) {
+        // If DB doesn't exist yet, assume available or error out safely
+        console.warn("Username check failed (DB might be missing):", error);
+        return true;
     }
-
-    return data === null;
 }
 
 // ============================================
-// Avatar Upload
+// Avatar Upload (Storage)
 // ============================================
 
-/**
- * Upload avatar to Supabase storage
- * @param {string} userId - User ID
- * @param {File} file - Image file
- * @returns {Promise<string>} Public URL of uploaded avatar
- */
 async function uploadAvatar(userId, file) {
-    const client = await getSupabase();
+    const { storage, ID } = window;
+    const BUCKET_ID = 'avatars'; // Need to create this bucket
 
-    // Generate unique filename
-    const fileExt = file.name.split('.').pop();
-    const fileName = `${userId}/avatar.${fileExt}`;
+    try {
+        const result = await storage.createFile(
+            BUCKET_ID,
+            ID.unique(),
+            file
+        );
 
-    // Upload file
-    const { error: uploadError } = await client.storage
-        .from('avatars')
-        .upload(fileName, file, {
-            upsert: true,
-            contentType: file.type
-        });
-
-    if (uploadError) {
-        throw uploadError;
+        // Get View URL
+        const resultUrl = storage.getFileView(BUCKET_ID, result.$id);
+        return resultUrl.href;
+    } catch (error) {
+        console.error("Avatar upload failed:", error);
+        return null;
     }
-
-    // Get public URL
-    const { data } = client.storage
-        .from('avatars')
-        .getPublicUrl(fileName);
-
-    return data.publicUrl;
 }
 
-// ============================================
-// Auth State Change Listener
-// ============================================
-
-/**
- * Listen for auth state changes
- * @param {Function} callback - Callback function (event, session)
- * @returns {Promise<object>} Subscription object
- */
-async function onAuthStateChange(callback) {
-    const client = await getSupabase();
-
-    const { data: { subscription } } = client.auth.onAuthStateChange((event, session) => {
-        callback(event, session);
-    });
-
-    return subscription;
+// Listeners helper (not used much in Appwrite web SDK same way as Supabase but we can mock it)
+function onAuthStateChange(callback) {
+    // Appwrite doesn't have a direct global listener for session changes in the same way 
+    // without realtime subscription to account, but for simple MVP we might skip or poll.
+    // For now, let's just return a dummy unsubscribe.
+    return { unsubscribe: () => { } };
 }

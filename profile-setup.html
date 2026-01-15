@@ -69,12 +69,14 @@
     <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <script src="js/supabase-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/appwrite@16.0.2"></script>
+    <script src="js/appwrite-config.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/auth.js"></script>
     <script>
         let currentUser = null;
 
+        // Check auth on load
         // Check auth on load
         checkAuth().then(async user => {
             if (!user) {
@@ -85,20 +87,15 @@
             currentUser = user;
 
             // Check if profile already exists
-            const profile = await getProfile(user.id);
+            const profile = await getProfile(user.$id);
             if (profile && profile.username) {
                 window.location.href = 'dashboard.html';
                 return;
             }
 
-            // Pre-fill avatar from Google if available
-            if (user.user_metadata?.avatar_url) {
-                document.getElementById('avatarPreview').src = user.user_metadata.avatar_url;
-            }
-
-            // Pre-fill username from Google name if available
-            if (user.user_metadata?.full_name) {
-                const suggestedUsername = user.user_metadata.full_name
+            // Pre-fill username from Appwrite name if available
+            if (user.name) {
+                const suggestedUsername = user.name
                     .toLowerCase()
                     .replace(/[^a-z0-9_]/g, '_')
                     .substring(0, 20);
@@ -191,11 +188,11 @@
             try {
                 // Upload avatar if provided
                 if (avatarFile) {
-                    avatarUrl = await uploadAvatar(currentUser.id, avatarFile);
+                    avatarUrl = await uploadAvatar(currentUser.$id, avatarFile);
                 }
 
                 // Create profile
-                await createProfile(currentUser.id, {
+                await createProfile(currentUser.$id, {
                     username,
                     registerNumber,
                     avatarUrl

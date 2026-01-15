@@ -29,24 +29,18 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // Get user profile with retry (in case trigger is slow)
     currentProfile = await getProfile(currentUser.id);
+    // Get user profile - In Appwrite auth user object is distinct from profile doc
+    // currentUser is the Account object. We need to fetch the custom profile doc.
+    const profile = await getProfile(currentUser.$id);
 
-    // Retry a few times if profile is missing (common with async triggers)
-    if (!currentProfile) {
-        console.log('Profile not found immediately, retrying...');
-        for (let i = 0; i < 3; i++) {
-            await new Promise(r => setTimeout(r, 1000)); // Wait 1s
-            currentProfile = await getProfile(currentUser.id);
-            if (currentProfile) break;
-        }
-    }
-
-    if (!currentProfile || !currentProfile.username) {
-        // If still no profile, redirect to profile setup
-        // But first check if we really should: maybe just incomplete?
-        console.warn('Profile missing or incomplete after retries');
+    // If no custom profile found, redirect to setup
+    // Note: Appwrite creates user on signup but maybe not profile doc if custom logic failed
+    if (!profile) {
         window.location.href = 'profile-setup.html';
         return;
     }
+
+    currentProfile = profile; // Set global
 
     // Initialize the dashboard
     await initDashboard();
@@ -191,7 +185,7 @@ async function handleLogSubmit(e) {
     logBtn.innerHTML = '<span class="loading-spinner" style="width: 16px; height: 16px; border-width: 2px;"></span>';
 
     try {
-        await addReadingLog(currentUser.id, logDate, pages);
+        await addReadingLog(currentUser.$id, logDate, pages);
         showToast(`Logged ${pages} pages for ${formatDateReadable(logDate)}!`, 'success');
 
         // Reset form
@@ -216,7 +210,7 @@ async function handleLogSubmit(e) {
 // ============================================
 
 async function refreshLogs() {
-    userLogs = await getUserLogs(currentUser.id);
+    userLogs = await getUserLogs(currentUser.$id);
 
     // Calculate and display stats
     const stats = calculateStats(userLogs);
@@ -367,7 +361,7 @@ async function refreshLeaderboard() {
     displayLeaderboard(leaderboard);
 
     // Update user rank
-    const rank = await getUserRank(currentUser.id);
+    const rank = await getUserRank(currentUser.$id);
     const rankEl = document.getElementById('userRank');
     if (rankEl) {
         rankEl.textContent = rank > 0 ? `#${rank}` : '#-';
@@ -394,7 +388,7 @@ function displayLeaderboard(leaderboard) {
         else if (entry.rank === 2) rankClass = 'silver';
         else if (entry.rank === 3) rankClass = 'bronze';
 
-        const isCurrentUser = entry.userId === currentUser.id;
+        const isCurrentUser = entry.userId === currentUser.$id;
 
         return `
             <div class="leaderboard-item" style="${isCurrentUser ? 'background: var(--gradient-glow);' : ''}">
