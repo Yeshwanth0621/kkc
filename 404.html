@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kalam Knowledge Club</title>
+  <script>
+    // GitHub Pages SPA routing - redirects 404s to index.html
+    const path = window.location.pathname.replace(/^\/kkc\/home/, '');
+    sessionStorage.setItem('redirect', path);
+  </script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/kkc/home/index.jsx"></script>
+</body>
+
+</html>
