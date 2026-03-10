@@ -1,0 +1,961 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/kkc/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Kalam Knowledge Club - PPTs & Presentations. Download and view our curated collection of presentations." />
+  <title>PPTs & Presentations | Kalam Knowledge Club</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --primary-pink: #FF6B9D;
+      --primary-pink-light: #FF8FB3;
+      --primary-pink-dark: #E84A7F;
+      --primary-blue: #4A90E2;
+      --primary-blue-light: #6BA3E8;
+      --primary-blue-dark: #2E6BC4;
+      --accent-yellow: #FFD93D;
+      --gradient-primary: linear-gradient(135deg, var(--primary-pink) 0%, var(--primary-blue) 100%);
+      --gradient-secondary: linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-yellow) 100%);
+      --gradient-accent: linear-gradient(135deg, var(--accent-yellow) 0%, var(--primary-pink) 100%);
+      --gradient-hero: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      --gradient-card: linear-gradient(145deg, rgba(255,255,255,.1) 0%, rgba(255,255,255,.05) 100%);
+      --bg-dark: #0a0a1a;
+      --bg-card: rgba(255,255,255,.05);
+      --bg-card-hover: rgba(255,255,255,.1);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255,255,255,.8);
+      --text-muted: rgba(255,255,255,.6);
+      --shadow-sm: 0 2px 10px rgba(0,0,0,.3);
+      --shadow-md: 0 10px 40px rgba(0,0,0,.4);
+      --shadow-lg: 0 20px 60px rgba(0,0,0,.5);
+      --shadow-glow-pink: 0 0 30px rgba(255,107,157,.4);
+      --shadow-glow-blue: 0 0 30px rgba(74,144,226,.4);
+      --shadow-glow-yellow: 0 0 30px rgba(255,217,61,.4);
+      --nav-height: 80px;
+      --transition-fast: .2s ease;
+      --transition-medium: .3s ease;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: Poppins, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-dark); }
+    ::-webkit-scrollbar-thumb { background: var(--gradient-primary); border-radius: 4px; }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    a { text-decoration: none; color: inherit; transition: var(--transition-fast); }
+
+    .container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; }
+
+    .gradient-text {
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── Header ── */
+    .header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 1rem 0;
+      background: #0a0a1af2;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 4px 30px rgba(0,0,0,.3);
+    }
+
+    .header-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.8rem;
+    }
+
+    .logo-k { color: var(--primary-pink); text-shadow: 0 0 20px rgba(255,107,157,.5); }
+    .logo-k2 { color: var(--primary-blue); text-shadow: 0 0 20px rgba(74,144,226,.5); }
+    .logo-c { color: var(--accent-yellow); text-shadow: 0 0 20px rgba(255,217,61,.5); }
+
+    .logo-text { display: flex; flex-direction: column; }
+
+    .logo-name {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .logo-tagline {
+      font-size: .65rem;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .nav { display: flex; align-items: center; gap: 2.5rem; }
+
+    .nav-link {
+      position: relative;
+      font-weight: 500;
+      font-size: .95rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: .5rem 0;
+      transition: var(--transition-fast);
+    }
+
+    .nav-link:hover, .nav-link.active { color: var(--text-primary); }
+
+    .nav-link-underline {
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--gradient-primary);
+      transition: var(--transition-medium);
+    }
+
+    .nav-link:hover .nav-link-underline,
+    .nav-link.active .nav-link-underline { width: 100%; }
+
+    .mobile-menu-btn {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: .5rem;
+      z-index: 1001;
+    }
+
+    .mobile-menu-btn span {
+      width: 25px;
+      height: 2px;
+      background: var(--text-primary);
+      transition: var(--transition-medium);
+      transform-origin: center;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      padding-top: calc(var(--nav-height) + 4rem);
+      padding-bottom: 4rem;
+      background: var(--gradient-hero);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: rgba(255,107,157,.15);
+      border: 1px solid rgba(255,107,157,.3);
+      border-radius: 50px;
+      padding: .5rem 1.5rem;
+      font-size: .85rem;
+      color: var(--primary-pink-light);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.8;
+    }
+
+    .bg-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: .3;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero > * { position: relative; z-index: 1; }
+
+    /* ── Search & Filter ── */
+    .controls {
+      padding: 2.5rem 0 0;
+      background: var(--bg-dark);
+    }
+
+    .controls-inner {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 50px;
+      padding: .75rem 1.5rem;
+      flex: 1;
+      max-width: 400px;
+    }
+
+    .search-box svg { flex-shrink: 0; opacity: .6; }
+
+    .search-box input {
+      background: none;
+      border: none;
+      outline: none;
+      color: var(--text-primary);
+      font-family: Poppins, sans-serif;
+      font-size: .95rem;
+      width: 100%;
+    }
+
+    .search-box input::placeholder { color: var(--text-muted); }
+
+    .filter-tabs {
+      display: flex;
+      gap: .5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-tab {
+      padding: .5rem 1.25rem;
+      border-radius: 50px;
+      border: 1px solid rgba(255,255,255,.15);
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: Poppins, sans-serif;
+      font-size: .85rem;
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+
+    .filter-tab:hover { border-color: var(--primary-pink); color: var(--primary-pink); }
+
+    .filter-tab.active {
+      background: var(--gradient-primary);
+      border-color: transparent;
+      color: #fff;
+    }
+
+    /* ── PPT Grid ── */
+    .ppts-section { padding: 3rem 0 6rem; background: var(--bg-dark); }
+
+    .ppts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .ppt-card {
+      background: var(--gradient-card);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 24px;
+      overflow: hidden;
+      transition: var(--transition-medium);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ppt-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-md);
+      border-color: rgba(255,107,157,.3);
+    }
+
+    .ppt-thumbnail {
+      aspect-ratio: 16/9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .thumb-bg-pink { background: linear-gradient(135deg, rgba(255,107,157,.25), rgba(74,144,226,.15)); }
+    .thumb-bg-blue { background: linear-gradient(135deg, rgba(74,144,226,.25), rgba(255,217,61,.15)); }
+    .thumb-bg-yellow { background: linear-gradient(135deg, rgba(255,217,61,.25), rgba(255,107,157,.15)); }
+    .thumb-bg-green { background: linear-gradient(135deg, rgba(72,199,142,.25), rgba(74,144,226,.15)); }
+    .thumb-bg-purple { background: linear-gradient(135deg, rgba(155,89,182,.25), rgba(255,107,157,.15)); }
+
+    .ppt-thumbnail .slide-icon { filter: drop-shadow(0 4px 12px rgba(0,0,0,.4)); }
+
+    .ppt-badge {
+      position: absolute;
+      top: .75rem;
+      right: .75rem;
+      padding: .25rem .75rem;
+      border-radius: 50px;
+      font-size: .7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .badge-new { background: rgba(255,107,157,.3); color: var(--primary-pink-light); border: 1px solid rgba(255,107,157,.4); }
+    .badge-popular { background: rgba(255,217,61,.2); color: #ffe566; border: 1px solid rgba(255,217,61,.4); }
+    .badge-featured { background: rgba(74,144,226,.2); color: var(--primary-blue-light); border: 1px solid rgba(74,144,226,.4); }
+
+    .ppt-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; gap: .75rem; }
+
+    .ppt-category {
+      font-size: .75rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--primary-pink-light);
+      font-weight: 600;
+    }
+
+    .ppt-title {
+      font-size: 1.2rem;
+      font-family: 'Playfair Display', serif;
+      line-height: 1.4;
+    }
+
+    .ppt-description {
+      font-size: .875rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      flex: 1;
+    }
+
+    .ppt-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: .8rem;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+    }
+
+    .ppt-meta span { display: flex; align-items: center; gap: .35rem; }
+
+    .ppt-actions { display: flex; gap: .75rem; padding: 0 1.5rem 1.5rem; }
+
+    .btn-view, .btn-download {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      padding: .75rem 1rem;
+      border-radius: 50px;
+      font-family: Poppins, sans-serif;
+      font-size: .85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition-medium);
+      border: none;
+      text-decoration: none;
+    }
+
+    .btn-view {
+      background: var(--gradient-primary);
+      color: #fff;
+      box-shadow: 0 0 20px rgba(255,107,157,.2);
+    }
+
+    .btn-view:hover { box-shadow: var(--shadow-glow-pink); transform: translateY(-2px); }
+
+    .btn-download {
+      background: transparent;
+      color: var(--text-secondary);
+      border: 1px solid rgba(255,255,255,.2);
+    }
+
+    .btn-download:hover {
+      border-color: var(--primary-blue);
+      color: var(--primary-blue-light);
+      box-shadow: var(--shadow-glow-blue);
+    }
+
+    /* ── Stats bar ── */
+    .stats-bar {
+      background: rgba(255,107,157,.07);
+      border-top: 1px solid rgba(255,107,157,.15);
+      border-bottom: 1px solid rgba(255,107,157,.15);
+      padding: 1.5rem 0;
+    }
+
+    .stats-inner {
+      display: flex;
+      justify-content: center;
+      gap: 4rem;
+      flex-wrap: wrap;
+    }
+
+    .stat { text-align: center; }
+
+    .stat-number {
+      font-size: 2rem;
+      font-family: 'Playfair Display', serif;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label { font-size: .8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+
+    /* ── Empty state ── */
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      display: none;
+    }
+
+    .empty-state.visible { display: block; }
+
+    .empty-icon { font-size: 4rem; margin-bottom: 1rem; opacity: .4; }
+    .empty-state h3 { margin-bottom: .5rem; color: var(--text-secondary); }
+    .empty-state p { color: var(--text-muted); }
+
+    /* ── Footer ── */
+    .footer {
+      background: #05050f;
+      border-top: 1px solid rgba(255,255,255,.05);
+      padding: 2rem 0;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: .85rem;
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    .ppt-card { animation: fadeInUp .6s ease both; }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .logo-text { display: none; }
+      .mobile-menu-btn { display: flex; }
+      .nav {
+        position: fixed;
+        top: 0; right: -100%;
+        width: 100%; height: 100vh;
+        background: rgba(10,10,26,.97);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        flex-direction: column;
+        justify-content: center;
+        gap: 2rem;
+        transition: var(--transition-medium);
+      }
+      .nav.nav-open { right: 0; }
+      .nav-link { font-size: 1.5rem; }
+    }
+
+    @media (max-width: 768px) {
+      .container { padding: 0 1rem; }
+      .controls-inner { flex-direction: column; align-items: stretch; }
+      .search-box { max-width: 100%; }
+      .stats-inner { gap: 2rem; }
+    }
+
+    @media (max-width: 480px) {
+      .header-container { padding: 0 1rem; }
+      .logo-icon { font-size: 1.5rem; }
+      .ppts-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ── Header ── -->
+  <header class="header">
+    <div class="header-container">
+      <a href="/kkc/" class="logo">
+        <div class="logo-icon">
+          <span class="logo-k">K</span>
+          <span class="logo-k2">K</span>
+          <span class="logo-c">C</span>
+        </div>
+        <div class="logo-text">
+          <span class="logo-name">Kalam Knowledge Club</span>
+          <span class="logo-tagline">Igniting Minds, Inspiring Futures</span>
+        </div>
+      </a>
+
+      <nav class="nav" id="nav">
+        <a href="/kkc/" class="nav-link"><span>Home</span><span class="nav-link-underline"></span></a>
+        <a href="/kkc/#about" class="nav-link"><span>About</span><span class="nav-link-underline"></span></a>
+        <a href="/kkc/#events" class="nav-link"><span>Events</span><span class="nav-link-underline"></span></a>
+        <a href="/kkc/#members" class="nav-link"><span>Members</span><span class="nav-link-underline"></span></a>
+        <a href="/kkc/ppts/" class="nav-link active"><span>PPTs</span><span class="nav-link-underline"></span></a>
+      </nav>
+
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ── Hero ── -->
+  <section class="hero">
+    <div class="bg-blob" style="width:500px;height:500px;background:#FF6B9D;top:-200px;left:-150px;"></div>
+    <div class="bg-blob" style="width:400px;height:400px;background:#4A90E2;bottom:-100px;right:-100px;"></div>
+    <div class="container">
+      <div class="hero-badge">📊 Resource Library</div>
+      <h1>PPTs &amp; <span class="gradient-text">Presentations</span></h1>
+      <p>Explore our curated collection of presentations from workshops, seminars, and tech talks organised by Kalam Knowledge Club.</p>
+    </div>
+  </section>
+
+  <!-- ── Stats ── -->
+  <div class="stats-bar">
+    <div class="container">
+      <div class="stats-inner">
+        <div class="stat">
+          <div class="stat-number" id="totalCount">0</div>
+          <div class="stat-label">Presentations</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">5</div>
+          <div class="stat-label">Categories</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">Free</div>
+          <div class="stat-label">Always</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Controls ── -->
+  <div class="controls">
+    <div class="container">
+      <div class="controls-inner">
+        <div class="search-box">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          <input type="search" id="searchInput" placeholder="Search presentations…" aria-label="Search presentations">
+        </div>
+        <div class="filter-tabs" role="group" aria-label="Filter by category">
+          <button class="filter-tab active" data-filter="all">All</button>
+          <button class="filter-tab" data-filter="tech">Technology</button>
+          <button class="filter-tab" data-filter="ai">AI &amp; ML</button>
+          <button class="filter-tab" data-filter="career">Career</button>
+          <button class="filter-tab" data-filter="project">Projects</button>
+          <button class="filter-tab" data-filter="workshop">Workshop</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PPT Grid ── -->
+  <section class="ppts-section">
+    <div class="container">
+      <div class="ppts-grid" id="pptsGrid">
+
+        <!-- Card 1 -->
+        <article class="ppt-card" data-category="ai" data-title="Introduction to Artificial Intelligence">
+          <div class="ppt-thumbnail thumb-bg-pink">
+            <span class="slide-icon">🤖</span>
+            <span class="ppt-badge badge-popular">Popular</span>
+          </div>
+          <div class="ppt-body">
+            <div class="ppt-category">AI &amp; ML</div>
+            <h3 class="ppt-title">Introduction to Artificial Intelligence</h3>
+            <p class="ppt-description">A beginner-friendly overview of AI concepts, machine learning fundamentals, and real-world applications. Perfect for students new to the field.</p>
+            <div class="ppt-meta">
+              <span>📄 32 slides</span>
+              <span>⏱ 45 min</span>
+              <span>🗓 Jan 2025</span>
+            </div>
+          </div>
+          <div class="ppt-actions">
+            <a href="#" class="btn-view" aria-label="View Introduction to Artificial Intelligence">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              View
+            </a>
+            <a href="#" class="btn-download" aria-label="Download Introduction to Artificial Intelligence">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="ppt-card" data-category="tech" data-title="Web Development with React">
+          <div class="ppt-thumbnail thumb-bg-blue">
+            <span class="slide-icon">⚛️</span>
+            <span class="ppt-badge badge-featured">Featured</span>
+          </div>
+          <div class="ppt-body">
+            <div class="ppt-category">Technology</div>
+            <h3 class="ppt-title">Web Development with React</h3>
+            <p class="ppt-description">Dive into React — components, hooks, state management, and best practices for building modern, scalable web applications.</p>
+            <div class="ppt-meta">
+              <span>📄 48 slides</span>
+              <span>⏱ 60 min</span>
+              <span>🗓 Dec 2024</span>
+            </div>
+          </div>
+          <div class="ppt-actions">
+            <a href="#" class="btn-view">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              View
+            </a>
+            <a href="#" class="btn-download">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="ppt-card" data-category="career" data-title="Cracking Technical Interviews">
+          <div class="ppt-thumbnail thumb-bg-yellow">
+            <span class="slide-icon">💼</span>
+            <span class="ppt-badge badge-new">New</span>
+          </div>
+          <div class="ppt-body">
+            <div class="ppt-category">Career</div>
+            <h3 class="ppt-title">Cracking Technical Interviews</h3>
+            <p class="ppt-description">Strategies, data structures, and problem-solving techniques to ace coding interviews at top tech companies like Google, Microsoft, and Amazon.</p>
+            <div class="ppt-meta">
+              <span>📄 55 slides</span>
+              <span>⏱ 75 min</span>
+              <span>🗓 Feb 2025</span>
+            </div>
+          </div>
+          <div class="ppt-actions">
+            <a href="#" class="btn-view">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              View
+            </a>
+            <a href="#" class="btn-download">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 4 -->
+        <article class="ppt-card" data-category="ai" data-title="Machine Learning Pipeline">
+          <div class="ppt-thumbnail thumb-bg-purple">
+            <span class="slide-icon">🧠</span>
+          </div>
+          <div class="ppt-body">
+            <div class="ppt-category">AI &amp; ML</div>
+            <h3 class="ppt-title">Machine Learning Pipeline</h3>
+            <p class="ppt-description">End-to-end ML pipeline from data collection to model deployment. Covers preprocessing, feature engineering, training, evaluation, and production deployment.</p>
+            <div class="ppt-meta">
+              <span>📄 40 slides</span>
+              <span>⏱ 50 min</span>
+              <span>🗓 Nov 2024</span>
+            </div>
+          </div>
+          <div class="ppt-actions">
+            <a href="#" class="btn-view">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              View
+            </a>
+            <a href="#" class="btn-download">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 5 -->
+        <article class="ppt-card" data-category="workshop" data-title="Git & GitHub for Beginners">
+          <div class="ppt-thumbnail thumb-bg-green">
+            <span class="slide-icon">🗂️</span>
+            <span class="ppt-badge badge-popular">Popular</span>
+          </div>
+          <div class="ppt-body">
+            <div class="ppt-category">Workshop</div>
+            <h3 class="ppt-title">Git &amp; GitHub for Beginners</h3>
+            <p class="ppt-description">Version control made simple. Learn Git commands, branching strategies, pull requests, and collaborative workflows used in industry.</p>
+            <div class="ppt-meta">
+              <span>📄 28 slides</span>
+              <span>⏱ 40 min</span>
+              <span>🗓 Oct 2024</span>
+            </div>
+          </div>
+          <div class="ppt-actions">
+            <a href="#" class="btn-view">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              View
+            </a>
+            <a href="#" class="btn-download">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 6 -->
+        <article class="ppt-card" data-category="project" data-title="Hackathon Project Showcase 2024">
+          <div class="ppt-thumbnail thumb-bg-pink">
+            <span class="slide-icon">🚀</span>
+            <span class="ppt-badge badge-featured">Featured</span>
+          </div>
+          <div class="ppt-body">
+            <div class="ppt-category">Projects</div>
+            <h3 class="ppt-title">Hackathon Project Showcase 2024</h3>
+            <p class="ppt-description">Highlights of the winning projects from KKC's 24-hour hackathon. Includes demos, architecture diagrams, and key learnings from each team.</p>
+            <div class="ppt-meta">
+              <span>📄 60 slides</span>
+              <span>⏱ 90 min</span>
+              <span>🗓 Jan 2025</span>
+            </div>
+          </div>
+          <div class="ppt-actions">
+            <a href="#" class="btn-view">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              View
+            </a>
+            <a href="#" class="btn-download">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 7 -->
+        <article class="ppt-card" data-category="tech" data-title="Cloud Computing Essentials">
+          <div class="ppt-thumbnail thumb-bg-blue">
+            <span class="slide-icon">☁️</span>
+            <span class="ppt-badge badge-new">New</span>
+          </div>
+          <div class="ppt-body">
+            <div class="ppt-category">Technology</div>
+            <h3 class="ppt-title">Cloud Computing Essentials</h3>
+            <p class="ppt-description">Introduction to cloud platforms (AWS, Azure, GCP), core services, serverless architecture, and best practices for cloud-native development.</p>
+            <div class="ppt-meta">
+              <span>📄 44 slides</span>
+              <span>⏱ 55 min</span>
+              <span>🗓 Feb 2025</span>
+            </div>
+          </div>
+          <div class="ppt-actions">
+            <a href="#" class="btn-view">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              View
+            </a>
+            <a href="#" class="btn-download">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 8 -->
+        <article class="ppt-card" data-category="career" data-title="Building Your Developer Portfolio">
+          <div class="ppt-thumbnail thumb-bg-yellow">
+            <span class="slide-icon">🎨</span>
+          </div>
+          <div class="ppt-body">
+            <div class="ppt-category">Career</div>
+            <h3 class="ppt-title">Building Your Developer Portfolio</h3>
+            <p class="ppt-description">Tips and templates for creating a standout developer portfolio that attracts recruiters, showcases your skills, and gets you hired.</p>
+            <div class="ppt-meta">
+              <span>📄 35 slides</span>
+              <span>⏱ 45 min</span>
+              <span>🗓 Dec 2024</span>
+            </div>
+          </div>
+          <div class="ppt-actions">
+            <a href="#" class="btn-view">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              View
+            </a>
+            <a href="#" class="btn-download">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 9 -->
+        <article class="ppt-card" data-category="workshop" data-title="Open Source Contribution Guide">
+          <div class="ppt-thumbnail thumb-bg-green">
+            <span class="slide-icon">🌐</span>
+          </div>
+          <div class="ppt-body">
+            <div class="ppt-category">Workshop</div>
+            <h3 class="ppt-title">Open Source Contribution Guide</h3>
+            <p class="ppt-description">How to find projects, make your first pull request, understand contribution guidelines, and grow your reputation in the open source community.</p>
+            <div class="ppt-meta">
+              <span>📄 30 slides</span>
+              <span>⏱ 40 min</span>
+              <span>🗓 Nov 2024</span>
+            </div>
+          </div>
+          <div class="ppt-actions">
+            <a href="#" class="btn-view">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              View
+            </a>
+            <a href="#" class="btn-download">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download
+            </a>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Empty state -->
+      <div class="empty-state" id="emptyState">
+        <div class="empty-icon">🔍</div>
+        <h3>No presentations found</h3>
+        <p>Try a different search term or category filter.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer class="footer">
+    <div class="container">
+      <p>© 2025 Kalam Knowledge Club. All rights reserved. &nbsp;|&nbsp; Built by KKC Tech Team</p>
+    </div>
+  </footer>
+
+  <script>
+    // ── Mobile menu ──
+    const mobileBtn = document.getElementById('mobileMenuBtn');
+    const nav = document.getElementById('nav');
+
+    mobileBtn.addEventListener('click', () => {
+      const isOpen = nav.classList.toggle('nav-open');
+      mobileBtn.classList.toggle('open', isOpen);
+      mobileBtn.setAttribute('aria-expanded', isOpen);
+    });
+
+    nav.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('nav-open');
+        mobileBtn.classList.remove('open');
+        mobileBtn.setAttribute('aria-expanded', false);
+      });
+    });
+
+    // ── Filter & Search ──
+    const cards = Array.from(document.querySelectorAll('.ppt-card'));
+    const searchInput = document.getElementById('searchInput');
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    const pptsGrid = document.getElementById('pptsGrid');
+    const emptyState = document.getElementById('emptyState');
+    const totalCountEl = document.getElementById('totalCount');
+
+    totalCountEl.textContent = cards.length;
+
+    let activeFilter = 'all';
+
+    function applyFilters() {
+      const query = searchInput.value.toLowerCase().trim();
+      let visible = 0;
+
+      cards.forEach((card, i) => {
+        const category = card.dataset.category;
+        const title = card.dataset.title.toLowerCase();
+        const desc = card.querySelector('.ppt-description').textContent.toLowerCase();
+
+        const matchesFilter = activeFilter === 'all' || category === activeFilter;
+        const matchesSearch = !query || title.includes(query) || desc.includes(query);
+
+        const show = matchesFilter && matchesSearch;
+        card.style.display = show ? '' : 'none';
+        if (show) {
+          card.style.animationDelay = (visible * 0.08) + 's';
+          visible++;
+        }
+      });
+
+      emptyState.classList.toggle('visible', visible === 0);
+    }
+
+    filterTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        filterTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        activeFilter = tab.dataset.filter;
+        applyFilters();
+      });
+    });
+
+    searchInput.addEventListener('input', applyFilters);
+
+    // ── Staggered animation on load ──
+    cards.forEach((card, i) => {
+      card.style.animationDelay = (i * 0.08) + 's';
+    });
+  </script>
+
+</body>
+</html>
