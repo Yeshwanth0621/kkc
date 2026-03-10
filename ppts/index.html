@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Presentations | Kalam Knowledge Club</title>
+  <meta name="description" content="Download KKC presentations — KKC Introduction and BookTopia Reading Challenge." />
+  <link rel="icon" type="image/svg+xml" href="/kkc/vite.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & base ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --blue-dk:   #1e40af;
+      --blue-mid:  #2563eb;
+      --blue-lt:   #dbeafe;
+      --gold:      #f59e0b;
+      --purple-dk: #5b21b6;
+      --purple:    #8b5cf6;
+      --purple-lt: #ede9fe;
+      --dark:      #1e293b;
+      --gray:      #64748b;
+      --white:     #ffffff;
+      --bg:        #f8fafc;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--dark);
+      min-height: 100vh;
+    }
+
+    /* ── Nav ───────────────────────────────────────────────── */
+    nav {
+      background: var(--blue-dk);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,.25);
+    }
+    .nav-brand {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--gold);
+      text-decoration: none;
+      letter-spacing: .5px;
+    }
+    .nav-back {
+      color: #cbd5e1;
+      font-size: .875rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      transition: color .2s;
+    }
+    .nav-back:hover { color: var(--white); }
+
+    /* ── Hero ──────────────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(135deg, var(--blue-dk) 0%, var(--blue-mid) 100%);
+      color: var(--white);
+      padding: 4rem 2rem 3.5rem;
+      text-align: center;
+    }
+    .hero h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      margin-bottom: .75rem;
+    }
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--blue-lt);
+      max-width: 550px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--dark);
+      font-size: .75rem;
+      font-weight: 700;
+      border-radius: 999px;
+      padding: .25rem .75rem;
+      margin-bottom: 1.2rem;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+    }
+
+    /* ── Main grid ─────────────────────────────────────────── */
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem;
+    }
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--blue-dk);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: var(--blue-lt);
+      border-radius: 1px;
+    }
+
+    /* ── Card grid ─────────────────────────────────────────── */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+      gap: 1.75rem;
+      margin-bottom: 3.5rem;
+    }
+    @media (max-width: 480px) { .cards { grid-template-columns: 1fr; } }
+
+    .card {
+      background: var(--white);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,.08);
+      transition: transform .25s, box-shadow .25s;
+      display: flex;
+      flex-direction: column;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,.13);
+    }
+
+    .card-header {
+      padding: 2rem 1.75rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .card-header.blue  { background: linear-gradient(135deg, var(--blue-dk), var(--blue-mid)); }
+    .card-header.purple{ background: linear-gradient(135deg, var(--purple-dk), var(--purple)); }
+
+    .card-header-icon {
+      font-size: 2.5rem;
+      margin-bottom: .75rem;
+      display: block;
+    }
+    .card-header h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.3;
+    }
+    .card-header p {
+      font-size: .875rem;
+      color: rgba(255,255,255,.75);
+      margin-top: .4rem;
+    }
+    .card-header .slides-badge {
+      position: absolute;
+      top: 1.1rem;
+      right: 1.1rem;
+      background: rgba(255,255,255,.18);
+      color: var(--white);
+      font-size: .7rem;
+      font-weight: 600;
+      border-radius: 999px;
+      padding: .2rem .6rem;
+      backdrop-filter: blur(4px);
+    }
+
+    .card-body {
+      padding: 1.5rem 1.75rem;
+      flex: 1;
+    }
+    .card-body ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: .55rem;
+    }
+    .card-body ul li {
+      font-size: .9rem;
+      color: var(--gray);
+      display: flex;
+      align-items: flex-start;
+      gap: .5rem;
+      line-height: 1.45;
+    }
+    .card-body ul li::before {
+      content: '✓';
+      font-weight: 700;
+      font-size: .8rem;
+      margin-top: .1rem;
+      flex-shrink: 0;
+    }
+    .card-header.blue  ~ .card-body ul li::before { color: var(--blue-mid); }
+    .card-header.purple~ .card-body ul li::before { color: var(--purple); }
+
+    .card-footer {
+      padding: 1rem 1.75rem 1.5rem;
+      border-top: 1px solid #f1f5f9;
+      display: flex;
+      gap: .75rem;
+      flex-wrap: wrap;
+    }
+
+    /* ── Buttons ───────────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      font-size: .875rem;
+      font-weight: 600;
+      border-radius: 8px;
+      padding: .6rem 1.1rem;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: opacity .2s, transform .15s;
+    }
+    .btn:hover { opacity: .88; transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+    .btn-primary-blue   { background: var(--blue-mid);  color: var(--white); }
+    .btn-primary-purple { background: var(--purple);    color: var(--white); }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid #e2e8f0;
+      color: var(--dark);
+    }
+    .btn-outline:hover { border-color: var(--blue-mid); color: var(--blue-mid); }
+
+    /* ── Slideshow viewer ──────────────────────────────────── */
+    .viewer-section { margin-top: 1rem; }
+    .slideshow-wrapper {
+      background: var(--white);
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,.1);
+      overflow: hidden;
+    }
+    .slideshow-tabs {
+      display: flex;
+      border-bottom: 2px solid #f1f5f9;
+      background: #f8fafc;
+    }
+    .tab-btn {
+      padding: .85rem 1.5rem;
+      font-size: .9rem;
+      font-weight: 600;
+      border: none;
+      background: none;
+      cursor: pointer;
+      color: var(--gray);
+      transition: color .2s, border-bottom .2s;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+    }
+    .tab-btn.active-blue   { color: var(--blue-dk);   border-bottom-color: var(--blue-dk); }
+    .tab-btn.active-purple { color: var(--purple-dk); border-bottom-color: var(--purple-dk); }
+
+    .slideshow-area {
+      position: relative;
+      background: #1e293b;
+      min-height: 520px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .slide {
+      display: none;
+      width: 100%;
+      max-width: 840px;
+      aspect-ratio: 4/3;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 8px 40px rgba(0,0,0,.35);
+      margin: 1.5rem auto;
+    }
+    .slide.active { display: block; }
+
+    /* Slide inner layouts */
+    .slide-inner {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 3rem;
+      text-align: center;
+      position: relative;
+    }
+    .slide-inner.content-layout {
+      justify-content: flex-start;
+      align-items: flex-start;
+      text-align: left;
+    }
+    .slide-inner.two-col {
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: flex-start;
+      gap: 1.5rem;
+      padding: 1.5rem 2.5rem;
+    }
+
+    /* slide typography */
+    .slide-tag {
+      font-size: .65rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      border-radius: 999px;
+      padding: .3rem .9rem;
+      margin-bottom: 1rem;
+    }
+    .slide-h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: .7rem;
+    }
+    .slide-sub {
+      font-size: clamp(.85rem, 1.5vw, 1.05rem);
+      line-height: 1.5;
+      opacity: .85;
+    }
+    .slide-year {
+      position: absolute;
+      bottom: 1.2rem;
+      font-size: .75rem;
+      font-weight: 600;
+      opacity: .75;
+    }
+
+    .slide-header-bar {
+      width: 100%;
+      padding: .9rem 2rem;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .slide-content-area {
+      flex: 1;
+      padding: 1rem 2rem 1.5rem;
+      width: 100%;
+      overflow: hidden;
+    }
+    .slide-bullet-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: .55rem;
+    }
+    .slide-bullet-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: .5rem;
+      font-size: clamp(.78rem, 1.3vw, .95rem);
+      line-height: 1.45;
+    }
+    .bullet-icon { font-size: .7rem; margin-top: .25rem; flex-shrink: 0; font-weight: 900; }
+
+    .slide-col { flex: 1; min-width: 0; }
+    .slide-col-head {
+      font-weight: 700;
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      padding: .3rem .7rem;
+      border-radius: 4px;
+      margin-bottom: .6rem;
+      display: inline-block;
+    }
+
+    .slide-accent-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+    }
+
+    /* Slide controls */
+    .slide-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .85rem 1.5rem;
+      background: #1e293b;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .ctrl-btn {
+      background: rgba(255,255,255,.12);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: .5rem 1.1rem;
+      font-size: .85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .ctrl-btn:hover { background: rgba(255,255,255,.22); }
+    .ctrl-btn:disabled { opacity: .3; cursor: default; }
+    .slide-counter {
+      color: rgba(255,255,255,.7);
+      font-size: .85rem;
+      font-weight: 500;
+    }
+    .progress-dots {
+      display: flex;
+      gap: .4rem;
+    }
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.3);
+      cursor: pointer;
+      transition: background .2s, transform .2s;
+    }
+    .dot.active { background: #fff; transform: scale(1.3); }
+
+    /* ── Footer ────────────────────────────────────────────── */
+    footer {
+      background: var(--blue-dk);
+      color: rgba(255,255,255,.65);
+      text-align: center;
+      padding: 1.5rem;
+      font-size: .82rem;
+    }
+    footer a { color: var(--gold); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <a class="nav-brand" href="/kkc/">✦ KKC</a>
+  <a class="nav-back" href="/kkc/">← Back to Home</a>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <span class="hero-badge">Resources</span>
+  <h1>Presentations</h1>
+  <p>Download our PowerPoint presentations or view them directly in your browser below.</p>
+</header>
+
+<!-- Main -->
+<main class="container">
+
+  <!-- Download cards -->
+  <h2 class="section-title">📥 Download Presentations</h2>
+  <div class="cards">
+
+    <!-- Card 1: KKC Intro -->
+    <div class="card">
+      <div class="card-header blue">
+        <span class="slides-badge">10 slides</span>
+        <span class="card-header-icon">🏫</span>
+        <h2>KKC Introduction</h2>
+        <p>About the club, mission, values, activities &amp; how to join</p>
+      </div>
+      <div class="card-body">
+        <ul>
+          <li>Who we are &amp; our story</li>
+          <li>Mission, vision &amp; core values</li>
+          <li>Club activities &amp; events</li>
+          <li>BookTopia reading challenge spotlight</li>
+          <li>How to become a member</li>
+        </ul>
+      </div>
+      <div class="card-footer">
+        <a class="btn btn-primary-blue" href="KKC_Introduction.pptx" download>
+          ⬇ Download PPTX
+        </a>
+        <button class="btn btn-outline" onclick="openSlideshow('kkc')">
+          ▶ View Slideshow
+        </button>
+      </div>
+    </div>
+
+    <!-- Card 2: BookTopia -->
+    <div class="card">
+      <div class="card-header purple">
+        <span class="slides-badge">10 slides</span>
+        <span class="card-header-icon">📚</span>
+        <h2>BookTopia Reading Challenge</h2>
+        <p>All about our month-long community reading program</p>
+      </div>
+      <div class="card-body">
+        <ul>
+          <li>What is BookTopia &amp; how it works</li>
+          <li>Platform features &amp; avatars</li>
+          <li>Personal &amp; community benefits</li>
+          <li>Challenge achievements &amp; stats</li>
+          <li>How to get started</li>
+        </ul>
+      </div>
+      <div class="card-footer">
+        <a class="btn btn-primary-purple" href="BookTopia_Reading_Challenge.pptx" download>
+          ⬇ Download PPTX
+        </a>
+        <button class="btn btn-outline" onclick="openSlideshow('bt')">
+          ▶ View Slideshow
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Viewer -->
+  <div class="viewer-section" id="viewer">
+    <h2 class="section-title">🖥️ In-Browser Slideshow Viewer</h2>
+    <div class="slideshow-wrapper">
+
+      <!-- Tabs -->
+      <div class="slideshow-tabs">
+        <button class="tab-btn active-blue" id="tab-kkc" onclick="switchTab('kkc')">🏫 KKC Introduction</button>
+        <button class="tab-btn" id="tab-bt"  onclick="switchTab('bt')">📚 BookTopia</button>
+      </div>
+
+      <!-- Slide area -->
+      <div class="slideshow-area" id="slideshow-area">
+        <!-- slides injected by JS -->
+      </div>
+
+      <!-- Controls -->
+      <div class="slide-controls">
+        <button class="ctrl-btn" id="btn-prev" onclick="changeSlide(-1)">← Prev</button>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:.4rem">
+          <div class="progress-dots" id="progress-dots"></div>
+          <span class="slide-counter" id="slide-counter">1 / 10</span>
+        </div>
+        <button class="ctrl-btn" id="btn-next" onclick="changeSlide(1)">Next →</button>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<footer>
+  &copy; 2025 <a href="/kkc/">Kalam Knowledge Club</a>. All rights reserved.
+</footer>
+
+<script>
+// ── Slide data ──────────────────────────────────────────────────────────────
+const BLUE_BG   = '#1e40af';
+const BLUE_MID  = '#2563eb';
+const BLUE_LT   = '#dbeafe';
+const GOLD      = '#f59e0b';
+const PURPLE_DK = '#5b21b6';
+const PURPLE    = '#8b5cf6';
+const PURPLE_LT = '#ede9fe';
+const WHITE     = '#fff';
+const DARK      = '#1e293b';
+
+function titleSlide({ bg, accent, lightColor, label, title, sub, year }) {
+  return `
+    <div class="slide-inner" style="background:${bg};color:${WHITE}">
+      <span class="slide-tag" style="background:${accent};color:${DARK}">${label}</span>
+      <div class="slide-h1" style="color:${WHITE}">${title}</div>
+      <div class="slide-sub" style="color:${lightColor}">${sub}</div>
+      <div class="slide-year" style="color:${accent}">${year}</div>
+      <div class="slide-accent-bar" style="background:${accent}"></div>
+    </div>`;
+}
+
+function sectionSlide({ bg, accent, text }) {
+  return `
+    <div class="slide-inner" style="background:${bg};color:${WHITE};text-align:left">
+      <div style="position:absolute;left:0;top:50%;transform:translateY(-50%);width:6px;height:80px;background:${accent};border-radius:0 4px 4px 0"></div>
+      <div class="slide-h1" style="color:${WHITE};padding-left:.5rem">${text}</div>
+    </div>`;
+}
+
+function contentSlide({ headerBg, accent, title, bullets, footerText }) {
+  const items = bullets.map(b => `
+    <li>
+      <span class="bullet-icon" style="color:${accent}">●</span>
+      <span style="color:${DARK}">${b}</span>
+    </li>`).join('');
+  return `
+    <div style="display:flex;flex-direction:column;height:100%;background:#fff">
+      <div class="slide-header-bar" style="background:${headerBg}">${title}</div>
+      <div class="slide-content-area">
+        <ul class="slide-bullet-list">${items}</ul>
+      </div>
+      <div style="padding:.4rem 2rem;background:${headerBg}">
+        <span style="font-size:.7rem;color:rgba(255,255,255,.7)">${footerText}</span>
+      </div>
+      <div style="height:4px;background:${accent}"></div>
+    </div>`;
+}
+
+function twoColSlide({ headerBg, accent, colBg, colFg, title, lh, li, rh, ri, footerText }) {
+  const items = arr => arr.map(x => `
+    <li style="display:flex;gap:.4rem;font-size:clamp(.72rem,1.2vw,.88rem);line-height:1.4;color:${DARK}">
+      <span style="color:${accent};flex-shrink:0">▸</span>${x}</li>`).join('');
+  return `
+    <div style="display:flex;flex-direction:column;height:100%;background:#fff">
+      <div class="slide-header-bar" style="background:${headerBg}">${title}</div>
+      <div style="flex:1;display:flex;gap:1rem;padding:1rem 2rem 1.2rem;overflow:hidden">
+        <div style="flex:1;min-width:0">
+          <div class="slide-col-head" style="background:${colBg};color:${colFg}">${lh}</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:.4rem">${items(li)}</ul>
+        </div>
+        <div style="flex:1;min-width:0">
+          <div class="slide-col-head" style="background:${colBg};color:${colFg}">${rh}</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:.4rem">${items(ri)}</ul>
+        </div>
+      </div>
+      <div style="padding:.4rem 2rem;background:${headerBg}">
+        <span style="font-size:.7rem;color:rgba(255,255,255,.7)">${footerText}</span>
+      </div>
+      <div style="height:4px;background:${accent}"></div>
+    </div>`;
+}
+
+function closingSlide({ bg, accent, lightColor, l1, l2, url }) {
+  return `
+    <div class="slide-inner" style="background:${bg};color:${WHITE}">
+      <div class="slide-h1" style="color:${WHITE}">${l1}</div>
+      <div class="slide-sub" style="color:${accent};font-style:italic;margin-top:.5rem">${l2}</div>
+      ${url ? `<div class="slide-year" style="color:${lightColor}">${url}</div>` : ''}
+      <div class="slide-accent-bar" style="background:${accent}"></div>
+    </div>`;
+}
+
+// ── KKC slides ──────────────────────────────────────────────────────────────
+const KKC_SLIDES = [
+  titleSlide({ bg:BLUE_BG, accent:GOLD, lightColor:BLUE_LT, label:'KKC', title:'Kalam Knowledge Club', sub:'Igniting Minds · Inspiring Futures', year:'2025 – 2026' }),
+  contentSlide({ headerBg:BLUE_BG, accent:GOLD, title:'About Us', footerText:'Kalam Knowledge Club', bullets:[
+    'Kalam Knowledge Club (KKC) is a student-led knowledge community',
+    'Named after Dr. A.P.J. Abdul Kalam — scientist, teacher, and visionary',
+    'Founded to foster curiosity, creativity, and collaborative learning',
+    'Open to learners of all backgrounds and disciplines',
+    'A safe space to explore ideas, challenge assumptions, and grow together',
+  ]}),
+  twoColSlide({ headerBg:BLUE_BG, accent:GOLD, colBg:BLUE_LT, colFg:BLUE_BG, title:'Mission & Vision', footerText:'Kalam Knowledge Club',
+    lh:'Our Mission', li:['Cultivate a culture of lifelong learning','Encourage critical thinking and innovation','Build a supportive peer-learning community','Bridge the gap between knowledge and application'],
+    rh:'Our Vision',  ri:['Become a premier knowledge hub for students','Inspire the next generation of leaders','Foster interdisciplinary collaboration','Make quality learning accessible to all'],
+  }),
+  contentSlide({ headerBg:BLUE_BG, accent:GOLD, title:'Our Core Values', footerText:'Kalam Knowledge Club', bullets:[
+    'Curiosity — Ask bold questions, explore new horizons',
+    'Community — Grow stronger together through collaboration',
+    'Innovation — Embrace creativity and fresh perspectives',
+    'Knowledge — Pursue continuous learning in all forms',
+    'Excellence — Strive for quality in everything we do',
+    'Inclusion — Welcome diverse ideas and backgrounds',
+  ]}),
+  sectionSlide({ bg:'#2563eb', accent:GOLD, text:'What We Do' }),
+  contentSlide({ headerBg:BLUE_BG, accent:GOLD, title:'Club Activities & Events', footerText:'Kalam Knowledge Club', bullets:[
+    'Reading Challenges — Monthly themed reading programs (BookTopia)',
+    'Knowledge Workshops — Skill-building sessions led by peers and mentors',
+    'Debate & Discussion — Structured forums to sharpen critical thinking',
+    'Guest Speaker Series — Inspiring talks from industry professionals',
+    'Project Showcases — Platforms to present student innovations',
+    'Competitions — Quizzes, hackathons, and writing challenges',
+  ]}),
+  contentSlide({ headerBg:BLUE_BG, accent:GOLD, title:'Spotlight: BookTopia Reading Challenge', footerText:'Kalam Knowledge Club', bullets:[
+    'A month-long community reading challenge hosted by KKC',
+    'Participants track their reading progress and earn badges',
+    'Choose from curated book lists across multiple genres',
+    'Share reviews, quotes, and reflections with the community',
+    'Compete on leaderboards while celebrating every reader\'s journey',
+    'Hosted at yeshwanth0621.github.io/kkc/booktopia — join the next challenge today!',
+  ]}),
+  sectionSlide({ bg:'#2563eb', accent:GOLD, text:'Join the Club' }),
+  contentSlide({ headerBg:BLUE_BG, accent:GOLD, title:'How to Become a Member', footerText:'Kalam Knowledge Club', bullets:[
+    'Any student passionate about learning can join — no prerequisites!',
+    'Visit our website or attend an introductory session',
+    'Register your membership (free of charge)',
+    'Attend at least one event per month to stay active',
+    'Volunteer to host or co-facilitate an event or workshop',
+    'Bring a friend — the more, the merrier!',
+  ]}),
+  closingSlide({ bg:BLUE_BG, accent:GOLD, lightColor:BLUE_LT, l1:"Let's Ignite Minds Together!", l2:'Join Kalam Knowledge Club today', url:'https://yeshwanth0621.github.io/kkc' }),
+];
+
+// ── BookTopia slides ─────────────────────────────────────────────────────────
+const BT_SLIDES = [
+  titleSlide({ bg:PURPLE_DK, accent:GOLD, lightColor:PURPLE_LT, label:'📚 BookTopia', title:'BookTopia Reading Challenge', sub:'Track your reading journey together', year:'A KKC Initiative · 2025–2026' }),
+  contentSlide({ headerBg:PURPLE_DK, accent:GOLD, title:'What is BookTopia?', footerText:'BookTopia — Kalam Knowledge Club', bullets:[
+    'A month-long community reading challenge organised by KKC',
+    'Designed to build consistent reading habits among students',
+    'Combines personal growth with friendly community competition',
+    'A celebration of books, stories, and ideas of every kind',
+    'Open to all members — fiction, non-fiction, poetry, and more',
+  ]}),
+  twoColSlide({ headerBg:PURPLE_DK, accent:GOLD, colBg:PURPLE_LT, colFg:PURPLE_DK, title:'How It Works', footerText:'BookTopia — Kalam Knowledge Club',
+    lh:'During the Challenge', li:['Register with your KKC account','Select books from your own shelf or our curated list','Log pages / chapters read each day','Submit brief reflections or key takeaways','Earn badges for milestones reached'],
+    rh:'Community Features',  ri:['Live leaderboard to track progress','Share favourite quotes with the group','Give & receive reading recommendations','Participate in weekly discussion prompts','Celebrate top readers at the month\'s end'],
+  }),
+  sectionSlide({ bg:PURPLE, accent:GOLD, text:'Key Features' }),
+  contentSlide({ headerBg:PURPLE_DK, accent:GOLD, title:'Platform Features', footerText:'BookTopia — Kalam Knowledge Club', bullets:[
+    'Personal reading dashboard with daily progress tracking',
+    '20 unique avatar options to personalise your profile',
+    'Genre-based book discovery and recommendations',
+    'Social feed: share reviews and highlight passages',
+    'Achievement badges: Bookworm, Page-Turner, Genre Explorer…',
+    'Monthly recap — a visual summary of your reading journey',
+  ]}),
+  twoColSlide({ headerBg:PURPLE_DK, accent:GOLD, colBg:PURPLE_LT, colFg:PURPLE_DK, title:'Why Participate?', footerText:'BookTopia — Kalam Knowledge Club',
+    lh:'Personal Benefits', li:['Build a stronger reading habit','Expand vocabulary and knowledge','Improve focus and concentration','Discover new authors and genres','Earn recognition and certificates'],
+    rh:'Community Benefits', ri:['Bond over shared reading experiences','Spark meaningful conversations','Create a culture of intellectual curiosity','Support peers in their learning journeys','Be part of something bigger than yourself'],
+  }),
+  contentSlide({ headerBg:PURPLE_DK, accent:GOLD, title:'Our Achievements So Far', footerText:'BookTopia — Kalam Knowledge Club', bullets:[
+    '500+ students participated in the inaugural challenge',
+    '3,200+ books logged across all participants',
+    '98 badges awarded in the very first month',
+    'Participants from 12+ different schools and colleges',
+    '200+ book reviews and reflections shared',
+    '85% of participants joined the next challenge!',
+  ]}),
+  sectionSlide({ bg:PURPLE, accent:GOLD, text:'Join the Challenge!' }),
+  contentSlide({ headerBg:PURPLE_DK, accent:GOLD, title:'How to Get Started', footerText:'BookTopia — Kalam Knowledge Club', bullets:[
+    'Visit the BookTopia platform through the KKC website',
+    'Sign up with your name and create your reading profile',
+    'Pick your avatar and set your monthly reading goal',
+    'Browse the curated book list or add your own picks',
+    'Start reading and log your first entry — it\'s that easy!',
+    'Invite friends and make it a group reading adventure',
+  ]}),
+  closingSlide({ bg:PURPLE_DK, accent:GOLD, lightColor:PURPLE_LT, l1:'Happy Reading! 📖', l2:'Every page turned is a step forward', url:'https://yeshwanth0621.github.io/kkc/booktopia' }),
+];
+
+// ── State ────────────────────────────────────────────────────────────────────
+let currentDeck = 'kkc';
+let currentSlide = 0;
+
+function getSlides() { return currentDeck === 'kkc' ? KKC_SLIDES : BT_SLIDES; }
+
+function renderSlideshow() {
+  const area = document.getElementById('slideshow-area');
+  const slides = getSlides();
+
+  // Build slides
+  area.innerHTML = slides.map((html, i) => `
+    <div class="slide${i === currentSlide ? ' active' : ''}" style="width:90%;max-width:820px;aspect-ratio:4/3">
+      ${html}
+    </div>`).join('');
+
+  // Dots
+  const dots = document.getElementById('progress-dots');
+  dots.innerHTML = slides.map((_, i) =>
+    `<div class="dot${i === currentSlide ? ' active' : ''}" onclick="goSlide(${i})"></div>`).join('');
+
+  // Counter
+  document.getElementById('slide-counter').textContent = `${currentSlide + 1} / ${slides.length}`;
+
+  // Buttons
+  document.getElementById('btn-prev').disabled = currentSlide === 0;
+  document.getElementById('btn-next').disabled = currentSlide === slides.length - 1;
+}
+
+function changeSlide(dir) {
+  const slides = getSlides();
+  currentSlide = Math.max(0, Math.min(slides.length - 1, currentSlide + dir));
+  renderSlideshow();
+}
+
+function goSlide(i) {
+  currentSlide = i;
+  renderSlideshow();
+}
+
+function switchTab(deck) {
+  currentDeck = deck;
+  currentSlide = 0;
+  document.getElementById('tab-kkc').className = 'tab-btn' + (deck === 'kkc' ? ' active-blue' : '');
+  document.getElementById('tab-bt').className  = 'tab-btn' + (deck === 'bt'  ? ' active-purple' : '');
+  renderSlideshow();
+}
+
+function openSlideshow(deck) {
+  switchTab(deck);
+  document.getElementById('viewer').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlide(1);
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   changeSlide(-1);
+});
+
+// Init
+renderSlideshow();
+</script>
+</body>
+</html>
