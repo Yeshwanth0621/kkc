@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Presentations | Kalam Knowledge Club</title>
+  <meta name="description"
+    content="Kalam Knowledge Club - Presentations & Slideshows. Explore our presentations on innovation, technology, and student development." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --primary: #6d28d9;
+      --primary-dark: #4c1d95;
+      --primary-light: #8b5cf6;
+      --accent: #f59e0b;
+      --accent-light: #fcd34d;
+      --bg: #0f0a1e;
+      --bg-card: #1a1030;
+      --text: #f3f0ff;
+      --text-muted: #a78bfa;
+      --gradient: linear-gradient(135deg, #6d28d9 0%, #a855f7 50%, #ec4899 100%);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    .site-header {
+      background: rgba(15, 10, 30, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(109, 40, 217, 0.3);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .site-header a {
+      text-decoration: none;
+    }
+
+    .logo {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .back-link {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover { color: var(--primary-light); }
+
+    /* ── Hero ── */
+    .hero {
+      text-align: center;
+      padding: 4rem 2rem 3rem;
+      background: radial-gradient(ellipse at 50% 0%, rgba(109,40,217,0.25) 0%, transparent 70%);
+    }
+
+    .hero h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      max-width: 560px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ── Grid ── */
+    .presentations-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .ppt-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(109, 40, 217, 0.25);
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .ppt-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--primary-light);
+      box-shadow: 0 8px 32px rgba(109, 40, 217, 0.3);
+    }
+
+    .ppt-thumbnail {
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ppt-thumbnail::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.1);
+    }
+
+    .ppt-card-body {
+      padding: 1.25rem;
+    }
+
+    .ppt-tag {
+      display: inline-block;
+      background: rgba(109,40,217,0.2);
+      color: var(--primary-light);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.25rem 0.75rem;
+      border-radius: 99px;
+      margin-bottom: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .ppt-card h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .ppt-card p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .ppt-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .ppt-meta span { display: flex; align-items: center; gap: 0.3rem; }
+
+    /* ── Modal / Slideshow ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 999;
+      backdrop-filter: blur(6px);
+    }
+
+    .modal-overlay.active { display: flex; align-items: center; justify-content: center; }
+
+    .slideshow-wrapper {
+      position: relative;
+      width: min(960px, 95vw);
+      aspect-ratio: 16/9;
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 5%;
+      text-align: center;
+      opacity: 0;
+      transform: translateX(60px);
+      transition: opacity 0.45s ease, transform 0.45s ease;
+      pointer-events: none;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+
+    .slide.exit {
+      opacity: 0;
+      transform: translateX(-60px);
+    }
+
+    /* Slide themes */
+    .slide-title    { background: linear-gradient(135deg, #1e1b4b 0%, #4c1d95 60%, #6d28d9 100%); }
+    .slide-about    { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%); }
+    .slide-mission  { background: linear-gradient(135deg, #14532d 0%, #065f46 100%); }
+    .slide-vision   { background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); }
+    .slide-values   { background: linear-gradient(135deg, #4a1d96 0%, #6d28d9 100%); }
+    .slide-events   { background: linear-gradient(135deg, #7c2d12 0%, #c2410c 100%); }
+    .slide-workshops{ background: linear-gradient(135deg, #164e63 0%, #0e7490 100%); }
+    .slide-team     { background: linear-gradient(135deg, #831843 0%, #be185d 100%); }
+    .slide-join     { background: linear-gradient(135deg, #1e1b4b 0%, #6d28d9 60%, #a855f7 100%); }
+
+    .slide-title-text {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(1.6rem, 4vw, 3rem);
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 0.4em;
+      line-height: 1.1;
+    }
+
+    .slide-subtitle {
+      font-size: clamp(0.85rem, 2vw, 1.15rem);
+      color: rgba(255,255,255,0.75);
+      max-width: 80%;
+      line-height: 1.5;
+    }
+
+    .slide-badge {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+      font-size: clamp(0.65rem, 1.5vw, 0.85rem);
+      font-weight: 600;
+      padding: 0.35em 1em;
+      border-radius: 99px;
+      margin-bottom: 1.2em;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .slide-heading {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(1.3rem, 3.5vw, 2.2rem);
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 0.6em;
+    }
+
+    .slide-body {
+      font-size: clamp(0.75rem, 1.8vw, 1rem);
+      color: rgba(255,255,255,0.85);
+      max-width: 85%;
+      line-height: 1.65;
+    }
+
+    .slide-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 0.75em;
+      width: 100%;
+      max-width: 90%;
+      margin-top: 1em;
+    }
+
+    .slide-item {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 10px;
+      padding: 0.75em 0.5em;
+      color: #fff;
+    }
+
+    .slide-item-icon { font-size: 1.6em; margin-bottom: 0.3em; }
+    .slide-item-title { font-weight: 700; font-size: clamp(0.65rem, 1.5vw, 0.9rem); }
+    .slide-item-desc { font-size: clamp(0.55rem, 1.2vw, 0.75rem); opacity: 0.75; margin-top: 0.2em; }
+
+    .slide-divider {
+      width: 3em;
+      height: 3px;
+      background: rgba(255,255,255,0.4);
+      border-radius: 2px;
+      margin: 0.8em auto;
+    }
+
+    /* Controls */
+    .modal-close {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      z-index: 1001;
+    }
+
+    .modal-close:hover { background: rgba(255,255,255,0.2); }
+
+    .slide-controls {
+      position: absolute;
+      bottom: 1rem;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      z-index: 10;
+    }
+
+    .ctrl-btn {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: #fff;
+      width: 2.2rem;
+      height: 2.2rem;
+      border-radius: 50%;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .ctrl-btn:hover { background: rgba(255,255,255,0.3); }
+    .ctrl-btn:disabled { opacity: 0.3; cursor: default; }
+
+    .slide-counter {
+      color: rgba(255,255,255,0.8);
+      font-size: 0.85rem;
+      font-weight: 600;
+      min-width: 5rem;
+      text-align: center;
+    }
+
+    .slide-dots {
+      display: flex;
+      gap: 0.4rem;
+      align-items: center;
+    }
+
+    .slide-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.35);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .slide-dot.active {
+      background: #fff;
+      transform: scale(1.4);
+    }
+
+    /* Footer */
+    .site-footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid rgba(109,40,217,0.15);
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 600px) {
+      .slideshow-wrapper { aspect-ratio: 4/3; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <a href="/kkc/" class="logo">KKC</a>
+    <a href="/kkc/" class="back-link">
+      ← Back to Website
+    </a>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Presentations</h1>
+    <p>Explore our curated slideshows on innovation, technology, and student development at Kalam Knowledge Club.</p>
+  </section>
+
+  <!-- Grid of presentation cards -->
+  <main class="presentations-grid">
+
+    <a class="ppt-card" href="#" onclick="openSlideshow('kkc-overview'); return false;" aria-label="Open KKC Overview presentation">
+      <div class="ppt-thumbnail" style="background: linear-gradient(135deg,#1e1b4b,#6d28d9,#a855f7);">🚀</div>
+      <div class="ppt-card-body">
+        <span class="ppt-tag">Club Overview</span>
+        <h3>Kalam Knowledge Club — Overview</h3>
+        <p>Discover our mission, vision, values, and how we empower students through innovation and knowledge.</p>
+        <div class="ppt-meta">
+          <span>📄 9 slides</span>
+          <span>⏱ ~5 min</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="ppt-card" href="#" onclick="openSlideshow('events'); return false;" aria-label="Open Events & Activities presentation">
+      <div class="ppt-thumbnail" style="background: linear-gradient(135deg,#7c2d12,#c2410c,#ea580c);">🎯</div>
+      <div class="ppt-card-body">
+        <span class="ppt-tag">Events</span>
+        <h3>Events &amp; Activities</h3>
+        <p>A walkthrough of our flagship events — hackathons, workshops, seminars, and networking opportunities.</p>
+        <div class="ppt-meta">
+          <span>📄 6 slides</span>
+          <span>⏱ ~3 min</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="ppt-card" href="#" onclick="openSlideshow('tech'); return false;" aria-label="Open Technology & Innovation presentation">
+      <div class="ppt-thumbnail" style="background: linear-gradient(135deg,#164e63,#0e7490,#06b6d4);">💡</div>
+      <div class="ppt-card-body">
+        <span class="ppt-tag">Technology</span>
+        <h3>Technology &amp; Innovation</h3>
+        <p>How KKC fosters a culture of technical excellence through workshops, AI seminars, and coding challenges.</p>
+        <div class="ppt-meta">
+          <span>📄 6 slides</span>
+          <span>⏱ ~3 min</span>
+        </div>
+      </div>
+    </a>
+
+  </main>
+
+  <!-- ── Slideshows ── -->
+
+  <!-- 1. KKC Overview -->
+  <div class="modal-overlay" id="modal-kkc-overview" role="dialog" aria-modal="true" aria-label="KKC Overview Slideshow">
+    <button class="modal-close" onclick="closeSlideshow('kkc-overview')" aria-label="Close presentation">✕</button>
+    <div class="slideshow-wrapper" id="sw-kkc-overview">
+
+      <div class="slide slide-title active" data-index="0">
+        <div class="slide-badge">Kalam Knowledge Club</div>
+        <div class="slide-title-text">Igniting Minds,<br>Inspiring Futures</div>
+        <div class="slide-divider"></div>
+        <div class="slide-subtitle">Empowering students through innovation, knowledge, and creativity.</div>
+      </div>
+
+      <div class="slide slide-about" data-index="1">
+        <div class="slide-badge">Who We Are</div>
+        <div class="slide-heading">About KKC</div>
+        <div class="slide-divider"></div>
+        <div class="slide-body">Kalam Knowledge Club is more than just a student organization. We are a community of dreamers, doers, and thinkers inspired by the vision of Dr. A.P.J. Abdul Kalam. Our mission is to foster intellectual growth, technological innovation, and social responsibility among students.</div>
+      </div>
+
+      <div class="slide slide-mission" data-index="2">
+        <div class="slide-badge">Our Purpose</div>
+        <div class="slide-heading">Mission</div>
+        <div class="slide-divider"></div>
+        <div class="slide-body">To foster a culture of continuous learning, technical excellence, and innovation among students — preparing them to be future leaders and change-makers.</div>
+      </div>
+
+      <div class="slide slide-vision" data-index="3">
+        <div class="slide-badge">Where We're Headed</div>
+        <div class="slide-heading">Vision</div>
+        <div class="slide-divider"></div>
+        <div class="slide-body">To become a leading hub for innovation, knowledge, and student development — creating a platform where ideas transform into reality and impact society positively.</div>
+      </div>
+
+      <div class="slide slide-values" data-index="4">
+        <div class="slide-heading">Our Core Values</div>
+        <div class="slide-grid">
+          <div class="slide-item"><div class="slide-item-icon">🤝</div><div class="slide-item-title">Integrity</div></div>
+          <div class="slide-item"><div class="slide-item-icon">💡</div><div class="slide-item-title">Innovation</div></div>
+          <div class="slide-item"><div class="slide-item-icon">🌐</div><div class="slide-item-title">Collaboration</div></div>
+          <div class="slide-item"><div class="slide-item-icon">📚</div><div class="slide-item-title">Continuous Learning</div></div>
+          <div class="slide-item"><div class="slide-item-icon">🌱</div><div class="slide-item-title">Social Responsibility</div></div>
+        </div>
+      </div>
+
+      <div class="slide slide-events" data-index="5">
+        <div class="slide-heading">What We Do</div>
+        <div class="slide-grid">
+          <div class="slide-item">
+            <div class="slide-item-icon">🛠</div>
+            <div class="slide-item-title">Workshops</div>
+            <div class="slide-item-desc">Hands-on tech sessions led by experts</div>
+          </div>
+          <div class="slide-item">
+            <div class="slide-item-icon">⚡</div>
+            <div class="slide-item-title">Hackathons</div>
+            <div class="slide-item-desc">24-hour coding &amp; innovation challenges</div>
+          </div>
+          <div class="slide-item">
+            <div class="slide-item-icon">🎤</div>
+            <div class="slide-item-title">Seminars</div>
+            <div class="slide-item-desc">Industry insights &amp; career talks</div>
+          </div>
+          <div class="slide-item">
+            <div class="slide-item-icon">🤝</div>
+            <div class="slide-item-title">Networking</div>
+            <div class="slide-item-desc">Connect with leaders &amp; alumni</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide slide-workshops" data-index="6">
+        <div class="slide-badge">Community</div>
+        <div class="slide-heading">A Thriving Community</div>
+        <div class="slide-divider"></div>
+        <div class="slide-body">Join a vibrant community where you can share ideas, collaborate on projects, and grow together. Connect with industry leaders, alumni, and fellow students in an inclusive and supportive environment.</div>
+      </div>
+
+      <div class="slide slide-team" data-index="7">
+        <div class="slide-badge">The People</div>
+        <div class="slide-heading">Our Team</div>
+        <div class="slide-divider"></div>
+        <div class="slide-body">Dedicated individuals making a difference through innovation and collaboration — visionary leaders, expert developers, event organizers, and academic guides working together to shape the future.</div>
+      </div>
+
+      <div class="slide slide-join" data-index="8">
+        <div class="slide-badge">Get Involved</div>
+        <div class="slide-title-text">Join KKC Today</div>
+        <div class="slide-divider"></div>
+        <div class="slide-subtitle">Start your journey towards excellence, innovation, and impact.</div>
+        <div style="margin-top:1.5em;background:rgba(255,255,255,0.15);padding:0.5em 1.5em;border-radius:99px;color:#fff;font-size:clamp(0.7rem,1.5vw,0.9rem);">📧 contact@kalamknowledgeclub.com</div>
+      </div>
+
+      <div class="slide-controls">
+        <button class="ctrl-btn" id="prev-kkc-overview" onclick="changeSlide('kkc-overview',-1)" aria-label="Previous slide">‹</button>
+        <div class="slide-dots" id="dots-kkc-overview"></div>
+        <span class="slide-counter" id="counter-kkc-overview">1 / 9</span>
+        <button class="ctrl-btn" id="next-kkc-overview" onclick="changeSlide('kkc-overview',1)" aria-label="Next slide">›</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Events & Activities -->
+  <div class="modal-overlay" id="modal-events" role="dialog" aria-modal="true" aria-label="Events & Activities Slideshow">
+    <button class="modal-close" onclick="closeSlideshow('events')" aria-label="Close presentation">✕</button>
+    <div class="slideshow-wrapper" id="sw-events">
+
+      <div class="slide slide-title active" data-index="0">
+        <div class="slide-badge">Kalam Knowledge Club</div>
+        <div class="slide-title-text">Events &amp;<br>Activities</div>
+        <div class="slide-divider"></div>
+        <div class="slide-subtitle">Exciting workshops, hackathons, seminars, and networking opportunities.</div>
+      </div>
+
+      <div class="slide slide-events" data-index="1">
+        <div class="slide-badge">Innovation Challenge</div>
+        <div class="slide-heading">KKC Hackathon</div>
+        <div class="slide-divider"></div>
+        <div class="slide-body">A 24-hour hackathon where students form teams to conceptualize, develop, and present innovative solutions to real-world problems. Cash prizes and internship opportunities await the winners!</div>
+      </div>
+
+      <div class="slide slide-workshops" data-index="2">
+        <div class="slide-badge">Learn &amp; Build</div>
+        <div class="slide-heading">Web Development Workshop</div>
+        <div class="slide-divider"></div>
+        <div class="slide-body">Hands-on workshop on modern web development technologies and frameworks — covering React, Node.js, and cloud deployment. Interactive sessions for frontend, backend, and full-stack development.</div>
+      </div>
+
+      <div class="slide slide-about" data-index="3">
+        <div class="slide-badge">AI &amp; ML</div>
+        <div class="slide-heading">AI/ML Seminar</div>
+        <div class="slide-divider"></div>
+        <div class="slide-body">A comprehensive session on emerging AI technologies and their real-world applications. Industry experts share insights on current trends, future possibilities, and career opportunities in AI.</div>
+      </div>
+
+      <div class="slide slide-mission" data-index="4">
+        <div class="slide-badge">Showcase</div>
+        <div class="slide-heading">Science &amp; Innovation Exhibition</div>
+        <div class="slide-divider"></div>
+        <div class="slide-body">An annual event where students display their innovative projects, research work, and technical achievements. Experts from various fields evaluate and recognize outstanding contributions.</div>
+      </div>
+
+      <div class="slide slide-join" data-index="5">
+        <div class="slide-badge">Opportunities</div>
+        <div class="slide-title-text">Join Our Next Event</div>
+        <div class="slide-divider"></div>
+        <div class="slide-subtitle">Connect with industry leaders, alumni, and fellow students in an inclusive and supportive community.</div>
+      </div>
+
+      <div class="slide-controls">
+        <button class="ctrl-btn" id="prev-events" onclick="changeSlide('events',-1)" aria-label="Previous slide">‹</button>
+        <div class="slide-dots" id="dots-events"></div>
+        <span class="slide-counter" id="counter-events">1 / 6</span>
+        <button class="ctrl-btn" id="next-events" onclick="changeSlide('events',1)" aria-label="Next slide">›</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Technology & Innovation -->
+  <div class="modal-overlay" id="modal-tech" role="dialog" aria-modal="true" aria-label="Technology & Innovation Slideshow">
+    <button class="modal-close" onclick="closeSlideshow('tech')" aria-label="Close presentation">✕</button>
+    <div class="slideshow-wrapper" id="sw-tech">
+
+      <div class="slide slide-title active" data-index="0">
+        <div class="slide-badge">Kalam Knowledge Club</div>
+        <div class="slide-title-text">Technology &amp;<br>Innovation</div>
+        <div class="slide-divider"></div>
+        <div class="slide-subtitle">Fostering creative thinking and technological advancement.</div>
+      </div>
+
+      <div class="slide slide-workshops" data-index="1">
+        <div class="slide-badge">Cutting-Edge Skills</div>
+        <div class="slide-heading">Technical Workshops</div>
+        <div class="slide-divider"></div>
+        <div class="slide-body">Learn cutting-edge technologies through hands-on workshops and seminars led by industry experts and experienced mentors. From AI/ML to web development and cloud computing.</div>
+      </div>
+
+      <div class="slide slide-events" data-index="2">
+        <div class="slide-badge">Competition</div>
+        <div class="slide-heading">Coding Challenges</div>
+        <div class="slide-divider"></div>
+        <div class="slide-body">Participate in hackathons, coding competitions, and innovation challenges to test your skills and win exciting prizes. Solve real-world problems and showcase your innovation.</div>
+      </div>
+
+      <div class="slide slide-about" data-index="3">
+        <div class="slide-badge">Artificial Intelligence</div>
+        <div class="slide-heading">AI &amp; Machine Learning</div>
+        <div class="slide-divider"></div>
+        <div class="slide-body">Join us for in-depth discussions on Artificial Intelligence and Machine Learning. Industry experts share insights on current trends, future possibilities, and career opportunities in AI.</div>
+      </div>
+
+      <div class="slide slide-vision" data-index="4">
+        <div class="slide-heading">Tech Focus Areas</div>
+        <div class="slide-grid">
+          <div class="slide-item">
+            <div class="slide-item-icon">🤖</div>
+            <div class="slide-item-title">AI &amp; ML</div>
+          </div>
+          <div class="slide-item">
+            <div class="slide-item-icon">🌐</div>
+            <div class="slide-item-title">Web Dev</div>
+          </div>
+          <div class="slide-item">
+            <div class="slide-item-icon">☁️</div>
+            <div class="slide-item-title">Cloud</div>
+          </div>
+          <div class="slide-item">
+            <div class="slide-item-icon">🔒</div>
+            <div class="slide-item-title">Cybersecurity</div>
+          </div>
+          <div class="slide-item">
+            <div class="slide-item-icon">📱</div>
+            <div class="slide-item-title">Mobile Dev</div>
+          </div>
+          <div class="slide-item">
+            <div class="slide-item-icon">🛢</div>
+            <div class="slide-item-title">Data Science</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide slide-join" data-index="5">
+        <div class="slide-badge">Build the Future</div>
+        <div class="slide-title-text">Innovate With Us</div>
+        <div class="slide-divider"></div>
+        <div class="slide-subtitle">Where ideas transform into reality and impact society positively.</div>
+      </div>
+
+      <div class="slide-controls">
+        <button class="ctrl-btn" id="prev-tech" onclick="changeSlide('tech',-1)" aria-label="Previous slide">‹</button>
+        <div class="slide-dots" id="dots-tech"></div>
+        <span class="slide-counter" id="counter-tech">1 / 6</span>
+        <button class="ctrl-btn" id="next-tech" onclick="changeSlide('tech',1)" aria-label="Next slide">›</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    &copy; 2025 Kalam Knowledge Club. All rights reserved. | Developed by KKC Tech Team
+  </footer>
+
+  <script>
+    // State per slideshow
+    const state = {};
+    // Matches the CSS transition duration for slide exit animation
+    const SLIDE_TRANSITION_DELAY = 60;
+
+    function initSlideshow(id) {
+      const wrapper = document.getElementById('sw-' + id);
+      const slides = Array.from(wrapper.querySelectorAll('.slide'));
+      const dotsEl = document.getElementById('dots-' + id);
+
+      // Build dots
+      dotsEl.innerHTML = '';
+      slides.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'slide-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+        dot.addEventListener('click', () => goToSlide(id, i));
+        dotsEl.appendChild(dot);
+      });
+
+      state[id] = { current: 0, total: slides.length, keyHandler: null };
+      updateControls(id);
+    }
+
+    function openSlideshow(id) {
+      const modal = document.getElementById('modal-' + id);
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      if (!state[id]) initSlideshow(id);
+      // Reset to first slide
+      goToSlide(id, 0);
+      // Keyboard listener — stored in state to avoid polluting the global namespace
+      state[id].keyHandler = (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+          e.preventDefault(); changeSlide(id, 1);
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+          e.preventDefault(); changeSlide(id, -1);
+        } else if (e.key === 'Escape') {
+          closeSlideshow(id);
+        }
+      };
+      document.addEventListener('keydown', state[id].keyHandler);
+    }
+
+    function closeSlideshow(id) {
+      document.getElementById('modal-' + id).classList.remove('active');
+      document.body.style.overflow = '';
+      if (state[id] && state[id].keyHandler) {
+        document.removeEventListener('keydown', state[id].keyHandler);
+        state[id].keyHandler = null;
+      }
+    }
+
+    function changeSlide(id, dir) {
+      if (!state[id]) return;
+      const s = state[id];
+      goToSlide(id, Math.max(0, Math.min(s.total - 1, s.current + dir)));
+    }
+
+    function goToSlide(id, index) {
+      const wrapper = document.getElementById('sw-' + id);
+      const slides = Array.from(wrapper.querySelectorAll('.slide'));
+      const dots = Array.from(document.getElementById('dots-' + id).children);
+      const s = state[id];
+      if (!s) return;
+
+      const prev = s.current;
+      slides[prev].classList.add('exit');
+      slides[prev].classList.remove('active');
+
+      setTimeout(() => {
+        slides[prev].classList.remove('exit');
+        slides[index].classList.add('active');
+        s.current = index;
+        dots.forEach((d, i) => d.classList.toggle('active', i === index));
+        updateControls(id);
+      }, SLIDE_TRANSITION_DELAY);
+    }
+
+    function updateControls(id) {
+      const s = state[id];
+      if (!s) return;
+      document.getElementById('counter-' + id).textContent = (s.current + 1) + ' / ' + s.total;
+      document.getElementById('prev-' + id).disabled = s.current === 0;
+      document.getElementById('next-' + id).disabled = s.current === s.total - 1;
+    }
+
+    // Close modal on overlay click
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+          const id = overlay.id.replace('modal-', '');
+          closeSlideshow(id);
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
