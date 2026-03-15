@@ -214,8 +214,8 @@ LANGUAGE plpgsql
 SECURITY DEFINER
 AS $$
 BEGIN
-  -- 1. Reset Game State to round 0 and paused
-  UPDATE game_state SET current_round = 0, phase = 'paused', is_active = false WHERE id IS NOT NULL;
+  -- 1. Reset Game State to round 1 and paused
+  UPDATE game_state SET current_round = 1, phase = 'paused', is_active = true WHERE id IS NOT NULL;
   
   -- 2. Clear all history and transactions
   TRUNCATE TABLE event_log RESTART IDENTITY CASCADE;
