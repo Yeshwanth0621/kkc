@@ -215,7 +215,7 @@ SECURITY DEFINER
 AS $$
 BEGIN
   -- 1. Reset Game State to round 0 and paused
-  UPDATE game_state SET current_round = 0, phase = 'paused', is_active = false;
+  UPDATE game_state SET current_round = 0, phase = 'paused', is_active = false WHERE id IS NOT NULL;
   
   -- 2. Clear all history and transactions
   TRUNCATE TABLE event_log RESTART IDENTITY CASCADE;
@@ -223,16 +223,58 @@ BEGIN
   TRUNCATE TABLE market_posts RESTART IDENTITY CASCADE;
   TRUNCATE TABLE industries RESTART IDENTITY CASCADE;
   
-  -- 3. Reset all Countries
-  UPDATE countries SET 
-    gc_balance = 100,
-    population = 10,
-    food_req = 5,
-    food_produced = 3,
-    round_income = 10;
+  -- 3. Reset all Countries to original Base Stats
+  UPDATE countries SET gc_balance = 100 WHERE id IS NOT NULL;
+  
+  UPDATE countries SET population = 140, food_req = 14, food_produced = 12, round_income = 0 WHERE name IN ('India', 'China');
+  UPDATE countries SET population = 15, food_req = 4, food_produced = 2, round_income = 0 WHERE name = 'Russia';
+  UPDATE countries SET population = 33, food_req = 7, food_produced = 5, round_income = 0 WHERE name = 'America';
+  UPDATE countries SET population = 8,  food_req = 3, food_produced = 2, round_income = 0 WHERE name = 'Germany';
+  UPDATE countries SET population = 7,  food_req = 3, food_produced = 3, round_income = 0 WHERE name = 'France';
+  UPDATE countries SET population = 1,  food_req = 3, food_produced = 3, round_income = 0 WHERE name = 'UAE';
+  UPDATE countries SET population = 5,  food_req = 4, food_produced = 2, round_income = 0 WHERE name = 'Spain';
+  UPDATE countries SET population = 1,  food_req = 5, food_produced = 3, round_income = 0 WHERE name = 'Singapore';
+  UPDATE countries SET population = 12, food_req = 5, food_produced = 3, round_income = 0 WHERE name = 'Japan';
+  UPDATE countries SET population = 3,  food_req = 3, food_produced = 2, round_income = 0 WHERE name = 'Australia';
+  UPDATE countries SET population = 4,  food_req = 4, food_produced = 2, round_income = 0 WHERE name = 'Canada';
+  UPDATE countries SET population = 5,  food_req = 4, food_produced = 2, round_income = 0 WHERE name = 'South Korea';
+  UPDATE countries SET population = 6,  food_req = 4, food_produced = 2, round_income = 0 WHERE name = 'South Africa';
+  UPDATE countries SET population = 1,  food_req = 2, food_produced = 1, round_income = 0 WHERE name = 'New Zealand';
     
-  -- 4. Reset all Resources
-  UPDATE resources SET quantity = 0;
+  -- 4. Reset all Resources to Base seeded quantities
+  UPDATE resources SET quantity = 2 WHERE id IS NOT NULL;
+  UPDATE resources SET quantity = 3 FROM countries c WHERE resources.country_id = c.id AND c.name = 'America';
+  
+  UPDATE resources SET quantity = 10 FROM countries c WHERE resources.country_id = c.id AND c.name = 'India' AND resource_type = 'Manpower';
+  UPDATE resources SET quantity = 6 FROM countries c WHERE resources.country_id = c.id AND c.name = 'India' AND resource_type = 'Food';
+  UPDATE resources SET quantity = 12 FROM countries c WHERE resources.country_id = c.id AND c.name = 'China' AND resource_type = 'Manpower';
+  UPDATE resources SET quantity = 8 FROM countries c WHERE resources.country_id = c.id AND c.name = 'China' AND resource_type = 'Minerals';
+  UPDATE resources SET quantity = 15 FROM countries c WHERE resources.country_id = c.id AND c.name = 'Russia' AND resource_type = 'Energy';
+  UPDATE resources SET quantity = 10 FROM countries c WHERE resources.country_id = c.id AND c.name = 'Russia' AND resource_type = 'Minerals';
+  UPDATE resources SET quantity = 8 FROM countries c WHERE resources.country_id = c.id AND c.name = 'America' AND resource_type = 'Technology';
+  UPDATE resources SET quantity = 12 FROM countries c WHERE resources.country_id = c.id AND c.name = 'America' AND resource_type = 'Finance';
+  UPDATE resources SET quantity = 10 FROM countries c WHERE resources.country_id = c.id AND c.name = 'Germany' AND resource_type = 'Technology';
+  UPDATE resources SET quantity = 6 FROM countries c WHERE resources.country_id = c.id AND c.name = 'Germany' AND resource_type = 'Manufacturing';
+  UPDATE resources SET quantity = 7 FROM countries c WHERE resources.country_id = c.id AND c.name = 'France' AND resource_type = 'Energy';
+  UPDATE resources SET quantity = 8 FROM countries c WHERE resources.country_id = c.id AND c.name = 'France' AND resource_type = 'Food';
+  UPDATE resources SET quantity = 12 FROM countries c WHERE resources.country_id = c.id AND c.name = 'UAE' AND resource_type = 'Energy';
+  UPDATE resources SET quantity = 9 FROM countries c WHERE resources.country_id = c.id AND c.name = 'UAE' AND resource_type = 'Finance';
+  UPDATE resources SET quantity = 7 FROM countries c WHERE resources.country_id = c.id AND c.name = 'Spain' AND resource_type = 'Food';
+  UPDATE resources SET quantity = 8 FROM countries c WHERE resources.country_id = c.id AND c.name = 'Spain' AND resource_type = 'Influence';
+  UPDATE resources SET quantity = 14 FROM countries c WHERE resources.country_id = c.id AND c.name = 'Singapore' AND resource_type = 'Finance';
+  UPDATE resources SET quantity = 12 FROM countries c WHERE resources.country_id = c.id AND c.name = 'Singapore' AND resource_type = 'Influence';
+  UPDATE resources SET quantity = 11 FROM countries c WHERE resources.country_id = c.id AND c.name = 'Japan' AND resource_type = 'Technology';
+  UPDATE resources SET quantity = 9 FROM countries c WHERE resources.country_id = c.id AND c.name = 'Japan' AND resource_type = 'Manufacturing';
+  UPDATE resources SET quantity = 12 FROM countries c WHERE resources.country_id = c.id AND c.name = 'Australia' AND resource_type = 'Minerals';
+  UPDATE resources SET quantity = 8 FROM countries c WHERE resources.country_id = c.id AND c.name = 'Australia' AND resource_type = 'Food';
+  UPDATE resources SET quantity = 10 FROM countries c WHERE resources.country_id = c.id AND c.name = 'Canada' AND resource_type = 'Energy';
+  UPDATE resources SET quantity = 8 FROM countries c WHERE resources.country_id = c.id AND c.name = 'Canada' AND resource_type = 'Food';
+  UPDATE resources SET quantity = 11 FROM countries c WHERE resources.country_id = c.id AND c.name = 'South Korea' AND resource_type = 'Technology';
+  UPDATE resources SET quantity = 9 FROM countries c WHERE resources.country_id = c.id AND c.name = 'South Korea' AND resource_type = 'Manufacturing';
+  UPDATE resources SET quantity = 8 FROM countries c WHERE resources.country_id = c.id AND c.name = 'South Africa' AND resource_type = 'Manpower';
+  UPDATE resources SET quantity = 8 FROM countries c WHERE resources.country_id = c.id AND c.name = 'South Africa' AND resource_type = 'Minerals';
+  UPDATE resources SET quantity = 10 FROM countries c WHERE resources.country_id = c.id AND c.name = 'New Zealand' AND resource_type = 'Energy';
+  UPDATE resources SET quantity = 9 FROM countries c WHERE resources.country_id = c.id AND c.name = 'New Zealand' AND resource_type = 'Food';
   
   -- 5. Add init log
   INSERT INTO event_log (round_number, event_type, description, affected_countries)

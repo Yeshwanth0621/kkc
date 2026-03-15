@@ -30,30 +30,30 @@ export function Trade({ country, allCountries, resources, gameState, incomingOff
   // Propose state
   const [toCountryId, setToCountryId] = useState('');
   const [offerResource, setOfferResource] = useState<ResourceType | ''>('');
-  const [offerQty, setOfferQty] = useState(0);
-  const [offerGC, setOfferGC] = useState(0);
+  const [offerQty, setOfferQty] = useState<number | ''>('');
+  const [offerGC, setOfferGC] = useState<number | ''>('');
   const [wantResource, setWantResource] = useState<ResourceType | ''>('');
-  const [wantQty, setWantQty] = useState(0);
-  const [wantGC, setWantGC] = useState(0);
+  const [wantQty, setWantQty] = useState<number | ''>('');
+  const [wantGC, setWantGC] = useState<number | ''>('');
   const [message, setMessage] = useState('');
 
   // Counter modal
   const [counterOffer, setCounterOffer] = useState<TradeOffer | null>(null);
   const [counterOfferResource, setCounterOfferResource] = useState<ResourceType | ''>('');
-  const [counterOfferQty, setCounterOfferQty] = useState(0);
-  const [counterOfferGC, setCounterOfferGC] = useState(0);
+  const [counterOfferQty, setCounterOfferQty] = useState<number | ''>('');
+  const [counterOfferGC, setCounterOfferGC] = useState<number | ''>('');
   const [counterWantResource, setCounterWantResource] = useState<ResourceType | ''>('');
-  const [counterWantQty, setCounterWantQty] = useState(0);
-  const [counterWantGC, setCounterWantGC] = useState(0);
+  const [counterWantQty, setCounterWantQty] = useState<number | ''>('');
+  const [counterWantGC, setCounterWantGC] = useState<number | ''>('');
   const [counterMessage, setCounterMessage] = useState('');
 
   // Market post state
   const [marketOfferResource, setMarketOfferResource] = useState<ResourceType | ''>('');
-  const [marketOfferQty, setMarketOfferQty] = useState(0);
-  const [marketOfferGC, setMarketOfferGC] = useState(0);
+  const [marketOfferQty, setMarketOfferQty] = useState<number | ''>('');
+  const [marketOfferGC, setMarketOfferGC] = useState<number | ''>('');
   const [marketWantResource, setMarketWantResource] = useState<ResourceType | ''>('');
-  const [marketWantQty, setMarketWantQty] = useState(0);
-  const [marketWantGC, setMarketWantGC] = useState(0);
+  const [marketWantQty, setMarketWantQty] = useState<number | ''>('');
+  const [marketWantGC, setMarketWantGC] = useState<number | ''>('');
   const [marketMessage, setMarketMessage] = useState('');
 
   const otherCountries = allCountries.filter(c => c.id !== country?.id);
@@ -96,11 +96,11 @@ export function Trade({ country, allCountries, resources, gameState, incomingOff
       // Reset form
       setToCountryId('');
       setOfferResource('');
-      setOfferQty(0);
-      setOfferGC(0);
+      setOfferQty('');
+      setOfferGC('');
       setWantResource('');
-      setWantQty(0);
-      setWantGC(0);
+      setWantQty('');
+      setWantGC('');
       setMessage('');
       onTradeAction();
     } catch (e: unknown) {
@@ -371,10 +371,10 @@ export function Trade({ country, allCountries, resources, gameState, incomingOff
                       <option value="">Resource (optional)</option>
                       {RESOURCE_TYPES.map(r => <option key={r} value={r}>{RESOURCE_CONFIG[r].emoji} {r} ({resources.find(res => res.resource_type === r)?.quantity ?? 0})</option>)}
                     </select>
-                    {marketOfferResource && <input type="number" min={0} value={marketOfferQty} onChange={e => setMarketOfferQty(parseInt(e.target.value) || 0)} placeholder="Quantity" className="w-full bg-card/60 border border-[rgba(0,240,255,0.1)] rounded-xl px-3 py-2.5 font-mono text-xs text-primary focus:outline-none focus:border-[rgba(0,240,255,0.3)] transition-all" />}
+                    {marketOfferResource && <input type="number" min={0} value={marketOfferQty} onChange={e => setMarketOfferQty(e.target.value === '' ? '' : Math.max(0, parseInt(e.target.value) || 0))} placeholder="Quantity" className="w-full bg-card/60 border border-[rgba(0,240,255,0.1)] rounded-xl px-3 py-2.5 font-mono text-xs text-primary focus:outline-none focus:border-[rgba(0,240,255,0.3)] transition-all" />}
                     <div>
                       <label className="text-[9px] font-mono text-muted tracking-wider">GC Amount</label>
-                      <input type="number" min={0} value={marketOfferGC} onChange={e => setMarketOfferGC(parseInt(e.target.value) || 0)} className="w-full bg-card/60 border border-[rgba(0,240,255,0.1)] rounded-xl px-3 py-2.5 font-mono text-xs text-primary focus:outline-none focus:border-[rgba(0,240,255,0.3)] transition-all" />
+                      <input type="number" min={0} value={marketOfferGC} onChange={e => setMarketOfferGC(e.target.value === '' ? '' : Math.max(0, parseInt(e.target.value) || 0))} className="w-full bg-card/60 border border-[rgba(0,240,255,0.1)] rounded-xl px-3 py-2.5 font-mono text-xs text-primary focus:outline-none focus:border-[rgba(0,240,255,0.3)] transition-all" />
                     </div>
                   </div>
 
@@ -384,10 +384,10 @@ export function Trade({ country, allCountries, resources, gameState, incomingOff
                       <option value="">Resource (optional)</option>
                       {RESOURCE_TYPES.map(r => <option key={r} value={r}>{RESOURCE_CONFIG[r].emoji} {r}</option>)}
                     </select>
-                    {marketWantResource && <input type="number" min={0} value={marketWantQty} onChange={e => setMarketWantQty(parseInt(e.target.value) || 0)} placeholder="Quantity" className="w-full bg-card/60 border border-[rgba(0,240,255,0.1)] rounded-xl px-3 py-2.5 font-mono text-xs text-primary focus:outline-none focus:border-[rgba(0,240,255,0.3)] transition-all" />}
+                    {marketWantResource && <input type="number" min={0} value={marketWantQty} onChange={e => setMarketWantQty(e.target.value === '' ? '' : Math.max(0, parseInt(e.target.value) || 0))} placeholder="Quantity" className="w-full bg-card/60 border border-[rgba(0,240,255,0.1)] rounded-xl px-3 py-2.5 font-mono text-xs text-primary focus:outline-none focus:border-[rgba(0,240,255,0.3)] transition-all" />}
                     <div>
                       <label className="text-[9px] font-mono text-muted tracking-wider">GC Amount</label>
-                      <input type="number" min={0} value={marketWantGC} onChange={e => setMarketWantGC(parseInt(e.target.value) || 0)} className="w-full bg-card/60 border border-[rgba(0,240,255,0.1)] rounded-xl px-3 py-2.5 font-mono text-xs text-primary focus:outline-none focus:border-[rgba(0,240,255,0.3)] transition-all" />
+                      <input type="number" min={0} value={marketWantGC} onChange={e => setMarketWantGC(e.target.value === '' ? '' : Math.max(0, parseInt(e.target.value) || 0))} className="w-full bg-card/60 border border-[rgba(0,240,255,0.1)] rounded-xl px-3 py-2.5 font-mono text-xs text-primary focus:outline-none focus:border-[rgba(0,240,255,0.3)] transition-all" />
                     </div>
                   </div>
                 </div>
@@ -482,7 +482,7 @@ export function Trade({ country, allCountries, resources, gameState, incomingOff
                       type="number"
                       min={0}
                       value={offerQty}
-                      onChange={e => setOfferQty(parseInt(e.target.value) || 0)}
+                      onChange={e => setOfferQty(e.target.value === '' ? '' : Math.max(0, parseInt(e.target.value) || 0))}
                       placeholder="Quantity"
                       className="w-full bg-card/60 border border-[rgba(0,240,255,0.1)] rounded-xl px-3 py-2.5 font-mono text-xs text-primary focus:outline-none focus:border-[rgba(0,240,255,0.3)] transition-all"
                     />
@@ -493,7 +493,7 @@ export function Trade({ country, allCountries, resources, gameState, incomingOff
                       type="number"
                       min={0}
                       value={offerGC}
-                      onChange={e => setOfferGC(parseInt(e.target.value) || 0)}
+                      onChange={e => setOfferGC(e.target.value === '' ? '' : Math.max(0, parseInt(e.target.value) || 0))}
                       className="w-full bg-card/60 border border-[rgba(0,240,255,0.1)] rounded-xl px-3 py-2.5 font-mono text-xs text-primary focus:outline-none focus:border-[rgba(0,240,255,0.3)] transition-all"
                     />
                   </div>
@@ -517,7 +517,7 @@ export function Trade({ country, allCountries, resources, gameState, incomingOff
                       type="number"
                       min={0}
                       value={wantQty}
-                      onChange={e => setWantQty(parseInt(e.target.value) || 0)}
+                      onChange={e => setWantQty(e.target.value === '' ? '' : Math.max(0, parseInt(e.target.value) || 0))}
                       placeholder="Quantity"
                       className="w-full bg-card/60 border border-[rgba(0,240,255,0.1)] rounded-xl px-3 py-2.5 font-mono text-xs text-primary focus:outline-none focus:border-[rgba(0,240,255,0.3)] transition-all"
                     />
@@ -528,7 +528,7 @@ export function Trade({ country, allCountries, resources, gameState, incomingOff
                       type="number"
                       min={0}
                       value={wantGC}
-                      onChange={e => setWantGC(parseInt(e.target.value) || 0)}
+                      onChange={e => setWantGC(e.target.value === '' ? '' : Math.max(0, parseInt(e.target.value) || 0))}
                       className="w-full bg-card/60 border border-[rgba(0,240,255,0.1)] rounded-xl px-3 py-2.5 font-mono text-xs text-primary focus:outline-none focus:border-[rgba(0,240,255,0.3)] transition-all"
                     />
                   </div>
@@ -678,11 +678,11 @@ export function Trade({ country, allCountries, resources, gameState, incomingOff
               </select>
               {counterOfferResource && (
                 <input type="number" min={0} value={counterOfferQty}
-                  onChange={e => setCounterOfferQty(parseInt(e.target.value) || 0)}
-                  className="w-full bg-card border border-border rounded-[4px] px-3 py-2 font-mono text-sm text-primary" />
+                  onChange={e => setCounterOfferQty(e.target.value === '' ? '' : Math.max(0, parseInt(e.target.value) || 0))}
+                  className="w-full bg-card border border-border rounded-[4px] px-3 py-2 font-mono text-sm text-primary" placeholder="Quantity" />
               )}
               <input type="number" min={0} value={counterOfferGC} placeholder="GC"
-                onChange={e => setCounterOfferGC(parseInt(e.target.value) || 0)}
+                onChange={e => setCounterOfferGC(e.target.value === '' ? '' : Math.max(0, parseInt(e.target.value) || 0))}
                 className="w-full bg-card border border-border rounded-[4px] px-3 py-2 font-mono text-sm text-primary" />
             </div>
             <div className="space-y-2.5 p-4 bg-base/40 rounded-xl border border-[rgba(0,240,255,0.08)]">
@@ -699,11 +699,11 @@ export function Trade({ country, allCountries, resources, gameState, incomingOff
               </select>
               {counterWantResource && (
                 <input type="number" min={0} value={counterWantQty}
-                  onChange={e => setCounterWantQty(parseInt(e.target.value) || 0)}
-                  className="w-full bg-card border border-border rounded-[4px] px-3 py-2 font-mono text-sm text-primary" />
+                  onChange={e => setCounterWantQty(e.target.value === '' ? '' : Math.max(0, parseInt(e.target.value) || 0))}
+                  className="w-full bg-card border border-border rounded-[4px] px-3 py-2 font-mono text-sm text-primary" placeholder="Quantity" />
               )}
               <input type="number" min={0} value={counterWantGC} placeholder="GC"
-                onChange={e => setCounterWantGC(parseInt(e.target.value) || 0)}
+                onChange={e => setCounterWantGC(e.target.value === '' ? '' : Math.max(0, parseInt(e.target.value) || 0))}
                 className="w-full bg-card border border-border rounded-[4px] px-3 py-2 font-mono text-sm text-primary" />
             </div>
           </div>

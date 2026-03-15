@@ -195,10 +195,13 @@ export function Admin() {
     for (const country of countries) {
       const activeInd = allIndustries.filter(i => i.country_id === country.id && i.is_active);
       const industrialIncome = activeInd.reduce((sum, i) => sum + i.income_per_round, 0);
-      const totalIncome = country.round_income + industrialIncome;
-      await supabase.from('countries')
-        .update({ gc_balance: country.gc_balance + totalIncome })
-        .eq('id', country.id);
+      const totalIncome = industrialIncome; // GC only comes from industries
+
+      if (totalIncome > 0) {
+        await supabase.from('countries')
+          .update({ gc_balance: country.gc_balance + totalIncome })
+          .eq('id', country.id);
+      }
 
       // Check food deficit
       if (country.food_produced < country.food_req) {
