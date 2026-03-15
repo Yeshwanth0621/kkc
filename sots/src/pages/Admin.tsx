@@ -175,8 +175,9 @@ export function Admin() {
       refetchGame();
       fetchData();
       fetchAllTrades();
-    } catch (e: unknown) {
-      addToast(e instanceof Error ? e.message : 'Error resetting game', 'error');
+    } catch (e: any) {
+      console.error("Supabase Reset Error:", e);
+      addToast(e.message || JSON.stringify(e) || 'Error resetting game', 'error');
     } finally {
       setLoading(false);
     }
